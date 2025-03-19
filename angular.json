@@ -31,15 +31,23 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/assets"
             ],
             "styles": [
+              "src/assets/css/icons.min.css",
+              "src/assets/css/app.min.css",
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "src/assets/libs/jquery/jquery.min.js",
+              "src/assets/libs/preline/preline.js",
+              "src/assets/libs/simplebar/simplebar.min.js",
+              "src/assets/libs/iconify-icon/iconify-icon.min.js",
+              "src/assets/libs/node-waves/waves.min.js",
+              "src/assets/libs/apexcharts/apexcharts.min.js",
+              "src/assets/js/app.js",
+              "src/assets/js/pages/dashboard.js"
+            ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -94,18 +102,29 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/assets"
             ],
             "styles": [
+              "src/assets/css/icons.min.css",
+              "src/assets/css/app.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/libs/jquery/jquery.min.js",
+              "src/assets/libs/preline/preline.js",
+              "src/assets/libs/simplebar/simplebar.min.js",
+              "src/assets/libs/iconify-icon/iconify-icon.min.js",
+              "src/assets/libs/node-waves/waves.min.js",
+              "src/assets/libs/apexcharts/apexcharts.min.js",
+              "src/assets/js/app.js",
+              "src/assets/js/pages/dashboard.js"
+            ]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
