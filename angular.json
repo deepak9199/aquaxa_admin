@@ -34,6 +34,8 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/vendor/css/rtl/core.css",
+              "src/assets/vendor/css/rtl/theme-default.css",
               "src/styles.css"
             ],
             "scripts": [],
@@ -94,6 +96,8 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/vendor/css/rtl/core.css",
+              "src/assets/vendor/css/rtl/theme-default.css",
               "src/styles.css"
             ],
             "scripts": []
