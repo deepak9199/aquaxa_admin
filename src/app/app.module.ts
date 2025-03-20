@@ -17,6 +17,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TicketComponent } from './pages/ticket/ticket.component';
 import { RegisterComponent } from './pages/auth/register/register.component';
 import { ForgetPasswordComponent } from './pages/auth/forget-password/forget-password.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ForgetPasswordComponent } from './pages/auth/forget-password/forget-pas
     DashboardComponent,
     TicketComponent,
     RegisterComponent,
-    ForgetPasswordComponent
+    ForgetPasswordComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
