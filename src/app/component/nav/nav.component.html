@@ -1,226 +1,511 @@
-<div id="topbar" class="app-header min-h-topbar flex items-center sticky top-0 z-50 bg-white shadow-sm">
-    <div class="container flex items-center">
-        <div class="w-full flex items-center justify-between gap-4">
-            <div class="flex items-center gap-5">
-                <!-- Sidenav Menu Toggle Button -->
-                <button
-                    class="flex items-center text-default-500 rounded-lg cursor-pointer p-2 bg-white border border-default-200 hover:bg-primary/15 hover:text-primary hover:border-primary/5 transition-all"
-                    data-hs-overlay="#app-menu" aria-label="Toggle navigation">
-                    <i class="i-lucide-align-left text-2xl"></i>
-                </button>
+<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+    id="layout-navbar">
 
-                <!-- Topbar Brand Logo -->
-                <a class='md:hidden flex' href='index.html'>
-                    <img src="assets/images/logo-sm.png" class="h-5" alt="Small logo">
+
+
+
+
+
+
+
+
+    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0   d-xl-none ">
+        <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+            <i class="ri-menu-fill ri-22px"></i>
+        </a>
+    </div>
+
+
+    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+
+
+        <!-- Search -->
+        <div class="navbar-nav align-items-center">
+            <div class="nav-item navbar-search-wrapper mb-0">
+                <a class="nav-item nav-link search-toggler fw-normal px-0" href="javascript:void(0);">
+                    <i class="ri-search-line ri-22px scaleX-n1-rtl me-3"></i>
+                    <span class="d-none d-md-inline-block text-muted">Search (Ctrl+/)</span>
                 </a>
-
-                <!-- Topbar Search -->
-                <div class="md:flex hidden items-center relative">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <i class="i-tabler-search text-base"></i>
-                    </div>
-                    <input type="search"
-                        class="form-input px-10 rounded-lg  bg-default-500/10 border-transparent focus:border-transparent w-80"
-                        placeholder="Search...">
-                    <button type="button" class="absolute inset-y-0 end-0 flex items-center pe-3">
-                        <i class="i-tabler-microphone text-base hover:text-black"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-5">
-                <!-- Language Dropdown Button -->
-                <div class="hs-dropdown relative inline-flex [--placement:bottom-right]">
-                    <button type="button"
-                        class="hs-dropdown-toggle inline-flex items-center p-2 rounded-lg bg-white border border-default-200 hover:bg-primary/15 hover:text-primary transition-all">
-                        <i class="i-lucide-globe text-2xl"></i>
-                    </button>
-
-                    <div
-                        class="hs-dropdown-menu duration mt-2 min-w-48 rounded-lg border border-default-200 bg-white p-2 opacity-0 shadow-md transition-[opacity,margin] hs-dropdown-open:opacity-100 hidden">
-                        <a href="javascript:void(0);"
-                            class="flex items-center gap-2.5 py-2 px-3 rounded-md text-sm text-default-800 hover:bg-default-100">
-                            <img src="assets/images/flags/germany.jpg" alt="user-image" class="h-4">
-                            <span class="align-middle">German</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);"
-                            class="flex items-center gap-2.5 py-2 px-3 rounded-md text-sm text-default-800 hover:bg-default-100">
-                            <img src="assets/images/flags/italy.jpg" alt="user-image" class="h-4">
-                            <span class="align-middle">Italian</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);"
-                            class="flex items-center gap-2.5 py-2 px-3 rounded-md text-sm text-default-800 hover:bg-default-100">
-                            <img src="assets/images/flags/spain.jpg" alt="user-image" class="h-4">
-                            <span class="align-middle">Spanish</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);"
-                            class="flex items-center gap-2.5 py-2 px-3 rounded-md text-sm text-default-800 hover:bg-default-100">
-                            <img src="assets/images/flags/russia.jpg" alt="user-image" class="h-4">
-                            <span class="align-middle">Russian</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Notification Dropdown Button -->
-                <div class="hs-dropdown relative inline-flex [--placement:bottom-right]">
-                    <button type="button"
-                        class="hs-dropdown-toggle inline-flex items-center p-2 rounded-lg bg-white border border-default-200 hover:bg-primary/15 hover:text-primary transition-all">
-                        <i class="i-lucide-bell text-2xl"></i>
-                    </button>
-
-                    <!-- Dropdown menu -->
-                    <div
-                        class="hs-dropdown-menu duration mt-2 w-full max-w-sm rounded-lg border border-default-200 bg-white opacity-0 shadow-md transition-[opacity,margin] hs-dropdown-open:opacity-100 hidden">
-                        <div
-                            class="block px-4 py-2 font-medium text-center text-default-700 rounded-t-lg bg-default-50">
-                            Notifications
-                        </div>
-
-                        <div class="divide-y divide-default-100">
-                            <a href="#" class="flex px-4 py-3 hover:bg-default-100">
-                                <div class="flex-shrink-0">
-                                    <img class="rounded-lg w-11 h-11" src="assets/images/users/avatar-6.jpg"
-                                        alt="Alex image">
-                                    <div
-                                        class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-green-500 border border-white rounded-lg">
-                                        <i class="i-tabler-alert-circle text-white w-4 h-4"></i>
-                                    </div>
-                                </div>
-                                <div class="w-full ps-3">
-                                    <div class="text-default-500 text-sm mb-1.5">
-                                        New alert from <span class="font-semibold text-default-900">Alex
-                                            Johnson</span>:
-                                        "System needs attention, check logs."
-                                    </div>
-                                    <div class="text-xs text-primary">2 minutes ago</div>
-                                </div>
-                            </a>
-
-                            <a href="#" class="flex px-4 py-3 hover:bg-default-100">
-                                <div class="flex-shrink-0">
-                                    <img class="rounded-lg w-11 h-11" src="assets/images/users/avatar-7.jpg"
-                                        alt="Sarah image">
-                                    <div
-                                        class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-primary-600 border border-white rounded-lg">
-                                        <i class="i-tabler-file-text text-white w-4 h-4"></i>
-                                    </div>
-                                </div>
-                                <div class="w-full ps-3">
-                                    <div class="text-default-500 text-sm mb-1.5">
-                                        <span class="font-semibold text-default-900">Sarah Lee</span> shared a
-                                        document with you.
-                                    </div>
-                                    <div class="text-xs text-primary">5 minutes ago</div>
-                                </div>
-                            </a>
-
-                            <a href="#" class="flex px-4 py-3 hover:bg-default-100">
-                                <div class="flex-shrink-0">
-                                    <img class="rounded-lg w-11 h-11" src="assets/images/users/avatar-8.jpg"
-                                        alt="Michael image">
-                                    <div
-                                        class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-purple-500 border border-white rounded-lg">
-                                        <i class="i-tabler-message text-white w-4 h-4"></i>
-                                    </div>
-                                </div>
-                                <div class="w-full ps-3">
-                                    <div class="text-default-500 text-sm mb-1.5">
-                                        <span class="font-semibold text-default-900">Michael Clark</span>
-                                        replied
-                                        to your comment.
-                                    </div>
-                                    <div class="text-xs text-primary">15 minutes ago</div>
-                                </div>
-                            </a>
-
-                            <a href="#" class="flex px-4 py-3 hover:bg-default-100">
-                                <div class="flex-shrink-0">
-                                    <img class="rounded-lg w-11 h-11" src="assets/images/users/avatar-9.jpg"
-                                        alt="Emma image">
-                                    <div
-                                        class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-pink-500 border border-white rounded-lg">
-                                        <i class="i-tabler-heart text-white w-4 h-4"></i>
-                                    </div>
-                                </div>
-                                <div class="w-full ps-3">
-                                    <div class="text-default-500 text-sm mb-1.5">
-                                        <span class="font-semibold text-default-900">Emma Stone</span> reacted
-                                        to
-                                        your post.
-                                    </div>
-                                    <div class="text-xs text-primary">30 minutes ago</div>
-                                </div>
-                            </a>
-                        </div>
-
-
-                        <a href="#"
-                            class="block py-2 text-sm font-medium text-center text-default-900 rounded-b-lg bg-default-50 hover:bg-default-100">
-                            <div class="inline-flex items-center ">
-                                <i class="i-tabler-eye size-4 text-default-500"></i>
-                                View all
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Fullscreen Toggle Button -->
-                <div class="md:flex hidden">
-                    <button data-toggle="fullscreen" type="button"
-                        class="p-2 rounded-lg bg-white border border-default-200 hover:bg-primary/15 hover:text-primary transition-all">
-                        <span class="sr-only">Fullscreen Mode</span>
-                        <span class="flex items-center justify-center size-6">
-                            <i class="i-lucide-maximize text-2xl flex group-[-fullscreen]:hidden"></i>
-                            <i class="i-lucide-minimize text-2xl hidden group-[-fullscreen]:flex"></i>
-                        </span>
-                    </button>
-                </div>
-
-                <!-- Profile Dropdown Button -->
-                <div class="relative">
-                    <div class="hs-dropdown relative inline-flex [--placement:bottom-right]">
-                        <button type="button" class="hs-dropdown-toggle">
-                            <img src="assets/images/users/avatar-8.jpg" alt="user-image" class="rounded-lg h-10">
-                        </button>
-                        <div
-                            class="hs-dropdown-menu duration mt-2 min-w-48 rounded-lg border border-default-200 bg-white p-2 opacity-0 shadow-md transition-[opacity,margin] hs-dropdown-open:opacity-100 hidden">
-                            <a class="flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-default-100"
-                                href="#">
-                                Profile
-                            </a>
-                            <a class="flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-default-100"
-                                href="#">
-                                Feed
-                            </a>
-                            <a class="flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-default-100"
-                                href="#">
-                                Analytics
-                            </a>
-                            <a class="flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-default-100"
-                                href="#">
-                                Settings
-                            </a>
-                            <a class="flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-default-100"
-                                href="#">
-                                Support
-                            </a>
-
-                            <hr class="my-2 -mx-2">
-
-                            <a class="flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-default-100"
-                                href="#">
-                                Log Out
-                            </a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
+        <!-- /Search -->
+
+
+
+
+
+        <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+
+
+            <!-- Language -->
+            <li class="nav-item dropdown-language dropdown">
+                <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                    href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <i class='ri-translate-2 ri-22px'></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);" data-language="en"
+                            data-text-direction="ltr">
+                            <span class="align-middle">English</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);" data-language="fr"
+                            data-text-direction="ltr">
+                            <span class="align-middle">French</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);" data-language="ar"
+                            data-text-direction="rtl">
+                            <span class="align-middle">Arabic</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);" data-language="de"
+                            data-text-direction="ltr">
+                            <span class="align-middle">German</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!--/ Language -->
+
+            <!-- Style Switcher -->
+            <li class="nav-item dropdown-style-switcher dropdown me-1 me-xl-0">
+                <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                    href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <i class='ri-22px'></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                            <span class="align-middle"><i class='ri-sun-line ri-22px me-3'></i>Light</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                            <span class="align-middle"><i class="ri-moon-clear-line ri-22px me-3"></i>Dark</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                            <span class="align-middle"><i class="ri-computer-line ri-22px me-3"></i>System</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- / Style Switcher-->
+
+            <!-- Quick links  -->
+            <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-1 me-xl-0">
+                <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                    href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                    aria-expanded="false">
+                    <i class='ri-star-smile-line ri-22px'></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end py-0">
+                    <div class="dropdown-menu-header border-bottom py-50">
+                        <div class="dropdown-header d-flex align-items-center py-2">
+                            <h6 class="mb-0 me-auto">Shortcuts</h6>
+                            <a href="javascript:void(0)"
+                                class="btn btn-text-secondary rounded-pill btn-icon dropdown-shortcuts-add text-heading"
+                                data-bs-toggle="tooltip" data-bs-placement="top" title="Add shortcuts"><i
+                                    class="ri-add-line ri-24px"></i></a>
+                        </div>
+                    </div>
+                    <div class="dropdown-shortcuts-list scrollable-container">
+                        <div class="row row-bordered overflow-visible g-0">
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="ri-calendar-line ri-26px text-heading"></i>
+                                </span>
+                                <a href="app-calendar.html" class="stretched-link">Calendar</a>
+                                <small class="mb-0">Appointments</small>
+                            </div>
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="ri-file-text-line ri-26px text-heading"></i>
+                                </span>
+                                <a href="app-invoice-list.html" class="stretched-link">Invoice App</a>
+                                <small class="mb-0">Manage Accounts</small>
+                            </div>
+                        </div>
+                        <div class="row row-bordered overflow-visible g-0">
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="ri-user-line ri-26px text-heading"></i>
+                                </span>
+                                <a href="app-user-list.html" class="stretched-link">User App</a>
+                                <small class="mb-0">Manage Users</small>
+                            </div>
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="ri-computer-line ri-26px text-heading"></i>
+                                </span>
+                                <a href="app-access-roles.html" class="stretched-link">Role Management</a>
+                                <small class="mb-0">Permission</small>
+                            </div>
+                        </div>
+                        <div class="row row-bordered overflow-visible g-0">
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="ri-pie-chart-2-line ri-26px text-heading"></i>
+                                </span>
+                                <a href="" class="stretched-link">Dashboard</a>
+                                <small class="mb-0">Analytics</small>
+                            </div>
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="ri-settings-4-line ri-26px text-heading"></i>
+                                </span>
+                                <a href="pages-account-settings-account.html" class="stretched-link">Setting</a>
+                                <small class="mb-0">Account Settings</small>
+                            </div>
+                        </div>
+                        <div class="row row-bordered overflow-visible g-0">
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="ri-question-line ri-26px text-heading"></i>
+                                </span>
+                                <a href="pages-faq.html" class="stretched-link">FAQs</a>
+                                <small class="mb-0">FAQs & Articles</small>
+                            </div>
+                            <div class="dropdown-shortcuts-item col">
+                                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                                    <i class="ri-tv-2-line ri-26px text-heading"></i>
+                                </span>
+                                <a href="modal-examples.html" class="stretched-link">Modals</a>
+                                <small class="mb-0">Useful Popups</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <!-- Quick links -->
+
+            <!-- Notification -->
+            <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-4 me-xl-1">
+                <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                    href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                    aria-expanded="false">
+                    <i class="ri-notification-2-line ri-22px"></i>
+                    <span
+                        class="position-absolute top-0 start-50 translate-middle-y badge badge-dot bg-danger mt-2 border"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end py-0">
+                    <li class="dropdown-menu-header border-bottom py-50">
+                        <div class="dropdown-header d-flex align-items-center py-2">
+                            <h6 class="mb-0 me-auto">Notification</h6>
+                            <div class="d-flex align-items-center">
+                                <span class="badge rounded-pill bg-label-primary fs-xsmall me-2">8
+                                    New</span>
+                                <a href="javascript:void(0)"
+                                    class="btn btn-text-secondary rounded-pill btn-icon dropdown-notifications-all"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Mark all as read"><i
+                                        class="ri-mail-open-line text-heading ri-20px"></i></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown-notifications-list scrollable-container">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar">
+                                            <img src="assets/img/avatars/1.png" alt class="rounded-circle">
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="small mb-1">Congratulation Lettie 🎉</h6>
+                                        <small class="mb-1 d-block text-body">Won the monthly best seller
+                                            gold badge</small>
+                                        <small class="text-muted">1h ago</small>
+                                    </div>
+                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                                class="badge badge-dot"></span></a>
+                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                                class="ri-close-line ri-20px"></span></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar">
+                                            <span class="avatar-initial rounded-circle bg-label-danger">CF</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1 small">Charles Franklin</h6>
+                                        <small class="mb-1 d-block text-body">Accepted your
+                                            connection</small>
+                                        <small class="text-muted">12hr ago</small>
+                                    </div>
+                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                                class="badge badge-dot"></span></a>
+                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                                class="ri-close-line ri-20px"></span></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li
+                                class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar">
+                                            <img src="assets/img/avatars/2.png" alt class="rounded-circle">
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1 small">New Message ✉️</h6>
+                                        <small class="mb-1 d-block text-body">You have new message from
+                                            Natalie</small>
+                                        <small class="text-muted">1h ago</small>
+                                    </div>
+                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                                class="badge badge-dot"></span></a>
+                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                                class="ri-close-line ri-20px"></span></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar">
+                                            <span class="avatar-initial rounded-circle bg-label-success"><i
+                                                    class="ri-shopping-cart-2-line"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1 small">Whoo! You have new order 🛒 </h6>
+                                        <small class="mb-1 d-block text-body">ACME Inc. made new order
+                                            $1,154</small>
+                                        <small class="text-muted">1 day ago</small>
+                                    </div>
+                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                                class="badge badge-dot"></span></a>
+                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                                class="ri-close-line ri-20px"></span></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li
+                                class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar">
+                                            <img src="assets/img/avatars/9.png" alt class="rounded-circle">
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1 small">Application has been approved 🚀 </h6>
+                                        <small class="mb-1 d-block text-body">Your ABC project application
+                                            has been approved.</small>
+                                        <small class="text-muted">2 days ago</small>
+                                    </div>
+                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                                class="badge badge-dot"></span></a>
+                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                                class="ri-close-line ri-20px"></span></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li
+                                class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar">
+                                            <span class="avatar-initial rounded-circle bg-label-success"><i
+                                                    class="ri-pie-chart-2-line"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1 small">Monthly report is generated</h6>
+                                        <small class="mb-1 d-block text-body">July monthly financial report
+                                            is generated </small>
+                                        <small class="text-muted">3 days ago</small>
+                                    </div>
+                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                                class="badge badge-dot"></span></a>
+                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                                class="ri-close-line ri-20px"></span></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li
+                                class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar">
+                                            <img src="assets/img/avatars/5.png" alt class="rounded-circle">
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1 small">Send connection request</h6>
+                                        <small class="mb-1 d-block text-body">Peter sent you connection
+                                            request</small>
+                                        <small class="text-muted">4 days ago</small>
+                                    </div>
+                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                                class="badge badge-dot"></span></a>
+                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                                class="ri-close-line ri-20px"></span></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar">
+                                            <img src="assets/img/avatars/6.png" alt class="rounded-circle">
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1 small">New message from Jane</h6>
+                                        <small class="mb-1 d-block text-body">Your have new message from
+                                            Jane</small>
+                                        <small class="text-muted">5 days ago</small>
+                                    </div>
+                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                                class="badge badge-dot"></span></a>
+                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                                class="ri-close-line ri-20px"></span></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li
+                                class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar">
+                                            <span class="avatar-initial rounded-circle bg-label-warning"><i
+                                                    class="ri-error-warning-line"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1 small">CPU is running high</h6>
+                                        <small class="mb-1 d-block text-body">CPU Utilization Percent is
+                                            currently at 88.63%,</small>
+                                        <small class="text-muted">5 days ago</small>
+                                    </div>
+                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                                class="badge badge-dot"></span></a>
+                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                                class="ri-close-line ri-20px"></span></a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="border-top">
+                        <div class="d-grid p-4">
+                            <a class="btn btn-primary btn-sm d-flex" href="javascript:void(0);">
+                                <small class="align-middle">View all notifications</small>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <!--/ Notification -->
+
+            <!-- User -->
+            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <div class="avatar avatar-online">
+                        <img src="assets/img/avatars/1.png" alt class="rounded-circle">
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="pages-account-settings-account.html">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 me-2">
+                                    <div class="avatar avatar-online">
+                                        <img src="assets/img/avatars/1.png" alt class="rounded-circle">
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <span class="fw-medium d-block small">John Doe</span>
+                                    <small class="text-muted">Admin</small>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="pages-profile-user.html">
+                            <i class="ri-user-3-line ri-22px me-3"></i><span class="align-middle">My
+                                Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="pages-account-settings-account.html">
+                            <i class="ri-settings-4-line ri-22px me-3"></i><span class="align-middle">Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="pages-account-settings-billing.html">
+                            <span class="d-flex align-items-center align-middle">
+                                <i class="flex-shrink-0 ri-file-text-line ri-22px me-3"></i>
+                                <span class="flex-grow-1 align-middle">Billing</span>
+                                <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger">4</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="pages-pricing.html">
+                            <i class="ri-money-dollar-circle-line ri-22px me-3"></i><span
+                                class="align-middle">Pricing</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="pages-faq.html">
+                            <i class="ri-question-line ri-22px me-3"></i><span class="align-middle">FAQ</span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="d-grid px-4 pt-2 pb-1">
+                            <a class="btn btn-sm btn-danger d-flex" href="auth-login-cover.html" target="_blank">
+                                <small class="align-middle">Logout</small>
+                                <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <!--/ User -->
+
+
+
+        </ul>
     </div>
-</div>
+
+
+    <!-- Search Small Screens -->
+    <div class="navbar-search-wrapper search-input-wrapper  d-none">
+        <input type="text" class="form-control search-input container-xxl border-0" placeholder="Search..."
+            aria-label="Search...">
+        <i class="ri-close-fill search-toggler cursor-pointer"></i>
+    </div>
+
+
+
+</nav>
