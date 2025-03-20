@@ -1,0 +1,12 @@
+1.change port to comman port
+2.change base Url environment
+3.change index.html <base href='/url name/'>
+4.ng build --base-href /message/
+4.ng build --base-href /retailjimessanger/
+
+//logo
+ng add @angular/pwa
+
+//crypto-js
+npm install crypto-js
+npm install --save-dev @types/crypto-js

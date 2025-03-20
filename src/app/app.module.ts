@@ -15,6 +15,8 @@ import { LoginComponent } from './pages/auth/login/login.component';
 import { LogoutComponent } from './pages/auth/logout/logout.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TicketComponent } from './pages/ticket/ticket.component';
+import { RegisterComponent } from './pages/auth/register/register.component';
+import { ForgetPasswordComponent } from './pages/auth/forget-password/forget-password.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { TicketComponent } from './pages/ticket/ticket.component';
     LoginComponent,
     LogoutComponent,
     DashboardComponent,
-    TicketComponent
+    TicketComponent,
+    RegisterComponent,
+    ForgetPasswordComponent
   ],
   imports: [
     BrowserModule,
