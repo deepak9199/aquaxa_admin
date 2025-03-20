@@ -36,9 +36,12 @@
             "styles": [
               "src/assets/vendor/css/rtl/core.css",
               "src/assets/vendor/css/rtl/theme-default.css",
+              "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "src/assets/js/main.js"
+            ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -98,9 +101,12 @@
             "styles": [
               "src/assets/vendor/css/rtl/core.css",
               "src/assets/vendor/css/rtl/theme-default.css",
+              "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/main.js"
+            ]
           }
         }
       }
