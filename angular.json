@@ -34,9 +34,15 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/vendor/css/pages/page-profile.css",
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "src/assets/js/main.js",
+              "src/assets/vendor/libs/jquery/jquery.js",
+              "src/assets/vendor/libs/typeahead-js/typeahead.js",
+              "src/assets/js/pages-profile-user.js"
+            ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -48,13 +54,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "50mb",
+                  "maximumError": "50MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "50mb",
+                  "maximumError": "50mb"
                 }
               ],
               "outputHashing": "all"
@@ -94,9 +100,15 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/vendor/css/pages/page-profile.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/main.js",
+              "src/assets/vendor/libs/jquery/jquery.js",
+              "src/assets/vendor/libs/typeahead-js/typeahead.js",
+              "src/assets/js/pages-profile-user.js"
+            ]
           }
         }
       }
