@@ -19,7 +19,7 @@ export class AuthService {
 
 
   // Sign in with email and password
-  private apiUrl = 'https://aquaxa.tensoftware.in/api/clientinfo';
+  private apiUrl = 'https://backend.aquaxa.in/';
 
   constructor(private http: HttpClient, private tokenStorage: TokenStorageService) { }
 
