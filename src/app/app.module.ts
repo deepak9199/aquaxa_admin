@@ -20,6 +20,7 @@ import { ForgetPasswordComponent } from './pages/auth/forget-password/forget-pas
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthGuard } from './shared/_guards/guard';
+import { LoadingButtonComponent } from './component/loading-button/loading-button.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { AuthGuard } from './shared/_guards/guard';
     TicketComponent,
     RegisterComponent,
     ForgetPasswordComponent,
-    ProfileComponent
+    ProfileComponent,
+    LoadingButtonComponent
   ],
   imports: [
     BrowserModule,
