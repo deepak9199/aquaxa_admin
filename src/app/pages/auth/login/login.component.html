@@ -26,16 +26,13 @@
                 <h4 class="mb-1">Welcome to Auqaxa! 👋</h4>
                 <p class="mb-5">Please sign-in to your Sales Man account </p>
 
-                <form #myLoginForm="ngForm" (ngSubmit)="signIn(); myLoginForm.reset()" id="formAuthentication"
-                    class="mb-5"
-                    action="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/index.html"
-                    method="GET">
+                <form #myLoginForm="ngForm" (ngSubmit)="signIn(); myLoginForm.reset()" class="mb-5">
 
                     <div class="form-floating form-floating-outline mb-5">
-                        <input [(ngModel)]="form_login.email" name="username" #email="ngModel" type="text"
-                            class="form-control" id="username" name="email-username"
-                            placeholder="Enter your ID or Username or Phone" minlength="3" required>
-                        <label for="email">ID or Username or Phone</label>
+                        <input [(ngModel)]="form_login.email" name="usernameid" #email="ngModel" type="text"
+                            class="form-control" id="usernameid" placeholder="Enter your ID or Username or Phone"
+                            minlength="3" required>
+                        <label for="usernameid">ID or Username or Phone</label>
                         <div *ngIf="email.invalid && email.touched" class="text-danger">
                             <small *ngIf="email.errors?.['minlength']">Must be at least 3 characters long.</small>
                         </div>
@@ -48,7 +45,7 @@
                                     <input [(ngModel)]="form_login.password" name="pin" #password="ngModel"
                                         type="password" id="pin" class="form-control" placeholder="Pin" minlength="3"
                                         required />
-                                    <label for="password">Pin</label>
+                                    <label for="pin">Pin</label>
                                 </div>
                                 <span class="input-group-text cursor-pointer"><i class="ri-eye-off-line"></i></span>
                             </div>
