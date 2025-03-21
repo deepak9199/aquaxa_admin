@@ -1,6 +1,6 @@
 <div class="authentication-wrapper authentication-cover">
     <!-- Logo -->
-    <a href="index.html" class="auth-cover-brand d-flex align-items-center gap-2">
+    <a href="/" class="auth-cover-brand d-flex align-items-center gap-2">
         <span class="app-brand-logo demo">
             <span style="color:var(--bs-primary);">
                 <svg width="268" height="150" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -37,18 +37,17 @@
                 </svg>
             </span>
         </span>
-        <span class="app-brand-text demo text-heading fw-semibold">Materialize</span>
+        <span class="app-brand-text demo text-heading fw-semibold">Auqaxa | Water Park</span>
     </a>
     <!-- /Logo -->
     <div class="authentication-inner row m-0">
         <!-- /Left Section -->
         <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center justify-content-center p-12 pb-2">
-            <img src="assets/img/illustrations/auth-login-illustration-light.png"
-                class="auth-cover-illustration w-100" alt="auth-illustration"
-                data-app-light-img="illustrations/auth-login-illustration-light.png"
+            <img src="assets/img/illustrations/auth-login-illustration-light.png" class="auth-cover-illustration w-100"
+                alt="auth-illustration" data-app-light-img="illustrations/auth-login-illustration-light.png"
                 data-app-dark-img="illustrations/auth-login-illustration-dark.html" />
-            <img src="assets/img/illustrations/auth-cover-login-mask-light.png" class="authentication-image"
-                alt="mask" data-app-light-img="illustrations/auth-cover-login-mask-light.png"
+            <img src="assets/img/illustrations/auth-cover-login-mask-light.png" class="authentication-image" alt="mask"
+                data-app-light-img="illustrations/auth-cover-login-mask-light.png"
                 data-app-dark-img="illustrations/auth-cover-login-mask-dark.html" />
         </div>
         <!-- /Left Section -->
@@ -57,25 +56,27 @@
         <div
             class="d-flex col-12 col-lg-5 col-xl-4 align-items-center authentication-bg position-relative py-sm-12 px-12 py-6">
             <div class="w-px-400 mx-auto pt-5 pt-lg-0">
-                <h4 class="mb-1">Welcome to Materialize! 👋</h4>
-                <p class="mb-5">Please sign-in to your account and start the adventure</p>
+                <h4 class="mb-1">Welcome to Auqaxa! 👋</h4>
+                <p class="mb-5">Please sign-in to your Sales Man account </p>
 
-                <form id="formAuthentication" class="mb-5"
+                <form #myLoginForm="ngForm" (ngSubmit)="signIn(); myLoginForm.reset()" id="formAuthentication"
+                    class="mb-5"
                     action="https://demos.pixinvent.com/materialize-html-admin-template/html/vertical-menu-template/index.html"
                     method="GET">
                     <div class="form-floating form-floating-outline mb-5">
-                        <input type="text" class="form-control" id="email" name="email-username"
-                            placeholder="Enter your email or username" autofocus>
-                        <label for="email">Email or Username</label>
+                        <input [(ngModel)]="form_login.email" name="email" #email="ngModel" type="text"
+                            class="form-control" id="email" name="email-username"
+                            placeholder="Enter your ID or Username or Phone" autofocus>
+                        <label for="email">ID or Username or Phone</label>
                     </div>
                     <div class="mb-5">
                         <div class="form-password-toggle">
                             <div class="input-group input-group-merge">
                                 <div class="form-floating form-floating-outline">
-                                    <input type="password" id="password" class="form-control" name="password"
-                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                        aria-describedby="password" />
-                                    <label for="password">Password</label>
+                                    <input [(ngModel)]="form_login.password" name="password" #password="ngModel"
+                                        type="password" id="password" class="form-control" name="password"
+                                        placeholder="Pin" aria-describedby="password" />
+                                    <label for="password">Pin</label>
                                 </div>
                                 <span class="input-group-text cursor-pointer"><i class="ri-eye-off-line"></i></span>
                             </div>
@@ -88,23 +89,23 @@
                                 Remember Me
                             </label>
                         </div>
-                        <a href="auth-forgot-password-cover.html" class="float-end mb-1 mt-2">
+                        <!-- <a href="" class="float-end mb-1 mt-2">
                             <span>Forgot Password?</span>
-                        </a>
+                        </a> -->
                     </div>
                     <button class="btn btn-primary d-grid w-100">
                         Sign in
                     </button>
                 </form>
 
-                <p class="text-center">
+                <!-- <p class="text-center">
                     <span>New on our platform?</span>
-                    <a href="auth-register-cover.html">
+                    <a href="">
                         <span>Create an account</span>
                     </a>
-                </p>
+                </p> -->
 
-                <div class="divider my-5">
+                <!-- <div class="divider my-5">
                     <div class="divider-text">or</div>
                 </div>
 
@@ -124,7 +125,7 @@
                     <a href="javascript:;" class="btn btn-icon rounded-circle btn-text-google-plus">
                         <i class="tf-icons ri-google-fill"></i>
                     </a>
-                </div>
+                </div> -->
             </div>
         </div>
         <!-- /Login -->

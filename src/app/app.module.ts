@@ -18,6 +18,8 @@ import { TicketComponent } from './pages/ticket/ticket.component';
 import { RegisterComponent } from './pages/auth/register/register.component';
 import { ForgetPasswordComponent } from './pages/auth/forget-password/forget-password.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { ToastrModule } from 'ngx-toastr';
+import { AuthGuard } from './shared/_guards/guard';
 
 @NgModule({
   declarations: [
@@ -40,9 +42,11 @@ import { ProfileComponent } from './pages/profile/profile.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
+    AuthGuard,
     provideClientHydration(withEventReplay())
   ],
   bootstrap: [AppComponent]
