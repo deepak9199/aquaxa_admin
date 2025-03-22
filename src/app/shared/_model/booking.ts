@@ -1,18 +1,17 @@
-import { Ticket } from "./ticket_model";
+import { Ticket } from './ticket_model';
 
 export interface BookingForm {
   name: string;
   address: string;
   phone: string;
   numberOfAdultsChildren: number;
-  rate: number
+  rate: number;
   totalAmount: number;
   coupons: string[];
   sendToWhatsapp: boolean;
-  email: string
-  specialdate: string
-  ticket: Ticket
-  
+  email: string;
+  specialdate: string;
+  ticket: Ticket;
 }
 
 export interface CouponRequest {
@@ -22,4 +21,13 @@ export interface CouponRequest {
   id: number;
   phone: string;
   agent: number;
+}
+
+export interface BookingList {
+  id: number;
+  phoneno: string;
+  customer_name: string;
+  item_name: string;
+  issue_date: string;
+  coupon_no: string[];
 }
