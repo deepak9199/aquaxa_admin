@@ -21,6 +21,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthGuard } from './shared/_guards/guard';
 import { LoadingButtonComponent } from './component/loading-button/loading-button.component';
+import { HistoryComponent } from './pages/history/history.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { LoadingButtonComponent } from './component/loading-button/loading-butto
     RegisterComponent,
     ForgetPasswordComponent,
     ProfileComponent,
-    LoadingButtonComponent
+    LoadingButtonComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,

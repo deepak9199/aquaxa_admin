@@ -1,170 +1,249 @@
-<div class="layout-wrapper layout-content-navbar  ">
-    <div class="layout-container">
-        <!-- Menu -->
-        <app-side-bar></app-side-bar>
-        <!-- / Menu -->
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+    <app-side-bar></app-side-bar>
+    <!-- / Menu -->
 
-        <!-- Layout container -->
-        <div class="layout-page">
+    <!-- Layout container -->
+    <div class="layout-page">
+      <!-- Navbar -->
+      <app-nav></app-nav>
+      <!-- / Navbar -->
 
-            <!-- Navbar -->
-            <app-nav></app-nav>
-            <!-- / Navbar -->
+      <!-- Content wrapper -->
+      <div class="content-wrapper">
+        <!-- Content -->
 
-            <!-- Content wrapper -->
-            <div class="content-wrapper">
-
-                <!-- Content -->
-
-                <div class="container-xxl flex-grow-1 container-p-y">
-                    <div class="row mb-12 g-6">
-                        <div *ngFor="let ticketobj of tickets" class="col-md-3 col-lg-3">
-                            <div class="card h-100">
-                                <img class="card-img-top" src="assets/img/elements/iPhone-bg.png" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title"> {{ ticketobj.item_name }} </h5>
-                                    <p class="card-text">
-                                        <span class="text-muted text-decoration-line-through" *ngIf="ticketobj.mrp">
-                                            MRP: {{ ticketobj.mrp }}/-
-                                        </span>
-                                        <br />
-                                        <span class="fw-bold">
-                                            Price: {{ ticketobj.rate }}/-
-                                        </span>
-                                        <span class="text-success" *ngIf="ticketobj.mrp">
-                                            ({{ calculateOfferPercentage(ticketobj.mrp, ticketobj.rate) }}% OFF)
-                                        </span>
-                                    </p>
-                                    <a (click)="selectedTicket(ticketobj)" type="button"
-                                        class="btn btn-outline-primary waves-effect" data-bs-toggle="modal"
-                                        data-bs-target="#modalCenter">
-                                        Book
-                                    </a>
-                                </div>
-
-
-                            </div>
-                        </div>
-
-                    </div>
-
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <div class="row mb-12 g-6">
+            <div *ngFor="let ticketobj of tickets" class="col-md-3 col-lg-3">
+              <div class="card h-100">
+                <img
+                  class="card-img-top"
+                  src="assets/img/elements/iPhone-bg.png"
+                  alt="Card image cap"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">{{ ticketobj.item_name }}</h5>
+                  <p class="card-text">
+                    <span
+                      class="text-muted text-decoration-line-through"
+                      *ngIf="ticketobj.mrp"
+                    >
+                      MRP: {{ ticketobj.mrp }}/-
+                    </span>
+                    <br />
+                    <span class="fw-bold"> Price: {{ ticketobj.rate }}/- </span>
+                    <span class="text-success" *ngIf="ticketobj.mrp">
+                      ({{
+                        calculateOfferPercentage(ticketobj.mrp, ticketobj.rate)
+                      }}% OFF)
+                    </span>
+                  </p>
+                  <a
+                    (click)="selectedTicket(ticketobj)"
+                    type="button"
+                    class="btn btn-outline-primary waves-effect"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalCenter"
+                  >
+                    Book
+                  </a>
                 </div>
-                <!-- / Content -->
-
-                <!-- Footer -->
-                <app-footer></app-footer>
-                <!-- / Footer -->
-
-
-                <div class="content-backdrop fade"></div>
+              </div>
             </div>
-            <!-- Content wrapper -->
+          </div>
         </div>
-        <!-- / Layout page -->
+        <!-- / Content -->
+
+        <!-- Footer -->
+        <app-footer></app-footer>
+        <!-- / Footer -->
+
+        <div class="content-backdrop fade"></div>
+      </div>
+      <!-- Content wrapper -->
     </div>
+    <!-- / Layout page -->
+  </div>
 
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
 
-
-    <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
-
-
-    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-    <div class="drag-target"
-        style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-    </div>
-
-
+  <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+  <div
+    class="drag-target"
+    style="
+      touch-action: pan-y;
+      user-select: none;
+      -webkit-user-drag: none;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    "
+  ></div>
 </div>
 
-
-
 <!-- Modal -->
-<div class="modal fade" id="modalCenter" tabindex="-1" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modalCenterTitle">Modal title</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div
+  class="modal fade"
+  id="modalCenter"
+  tabindex="-1"
+  style="display: none"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modalCenterTitle">Modal title</h4>
+        <button
+          type="button"
+          id="closeModelBooking"
+          name="closeModelBooking"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form class="browser-default-validation" #bookingForm="ngForm">
+          <div class="form-floating form-floating-outline mb-6">
+            <div class="input-group input-group-merge">
+              <span class="input-group-text" id="basic-addon-search31">
+                <i *ngIf="!loadingSearch" class="ri-search-line"></i>
+                <div
+                  *ngIf="loadingSearch"
+                  class="spinner-border spinner-border-sm text-secondary"
+                  role="status"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </span>
+              <input
+                (keyup.enter)="search()"
+                type="number"
+                class="form-control"
+                placeholder="Search..."
+                aria-label="Search..."
+                aria-describedby="basic-addon-search31"
+                required
+                [(ngModel)]="booking.phone"
+                name="phone"
+              />
             </div>
-            <div class="modal-body">
-                <form class="browser-default-validation" #bookingForm="ngForm" (ngSubmit)="onSubmit()">
-                    <div class="form-floating form-floating-outline mb-6">
+          </div>
+          <div class="form-floating form-floating-outline mb-6">
+            <input
+              type="text"
+              class="form-control"
+              id="basic-default-name"
+              placeholder="Enter name"
+              required
+              [(ngModel)]="booking.name"
+              name="name"
+            />
+            <label for="basic-default-name">Name</label>
+          </div>
+          <div class="form-floating form-floating-outline mb-6">
+            <input
+              type="text"
+              class="form-control"
+              id="basic-default-address"
+              placeholder="Enter Address"
+              required
+              [(ngModel)]="booking.address"
+              name="address"
+            />
+            <label for="basic-default-address">Address</label>
+          </div>
+          <div class="form-floating form-floating-outline mb-6">
+            <input
+              type="email"
+              class="form-control"
+              id="basic-default-address"
+              placeholder="Enter Email"
+              required
+              [(ngModel)]="booking.email"
+              name="address"
+            />
+            <label for="basic-default-address">Email</label>
+          </div>
 
-                        <div class="input-group input-group-merge">
-                            <span class="input-group-text" id="basic-addon-search31">
-                                <i *ngIf="!loadingSearch" class="ri-search-line"></i>
-                                <div *ngIf="loadingSearch" class="spinner-border spinner-border-sm text-secondary"
-                                    role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                            </span>
-                            <input (keyup.enter)="search()" type="number" class="form-control" placeholder="Search..."
-                                aria-label="Search..." aria-describedby="basic-addon-search31" required
-                                [(ngModel)]="booking.phone" name="phone">
-                        </div>
-                    </div>
-                    <div class="form-floating form-floating-outline mb-6">
-                        <input type="text" class="form-control" id="basic-default-name" placeholder="Enter name"
-                            required [(ngModel)]="booking.name" name="name">
-                        <label for="basic-default-name">Name</label>
-                    </div>
-                    <div class="form-floating form-floating-outline mb-6">
-                        <input type="text" class="form-control" id="basic-default-address" placeholder="Enter Address"
-                            required [(ngModel)]="booking.address" name="address">
-                        <label for="basic-default-address">Address</label>
-                    </div>
-                    <div class="form-floating form-floating-outline mb-6">
-                        <input type="email" class="form-control" id="basic-default-address" placeholder="Enter Email"
-                            required [(ngModel)]="booking.email" name="address">
-                        <label for="basic-default-address">Email</label>
-                    </div>
-
-                    <!-- <div class="form-floating form-floating-outline mb-6">
+          <!-- <div class="form-floating form-floating-outline mb-6">
                         <input type="number" class="form-control" id="basic-default-adults"
                             (keyup)="calcuateTotalAmount()" placeholder="Enter No. of Adults/Children" required
                             [(ngModel)]="booking.numberOfAdultsChildren" name="numberOfAdultsChildren">
                         <label for="basic-default-adults">No. of Adults/Children</label>
                     </div> -->
-                    <div class="form-floating form-floating-outline mb-6">
-                        <input type="number" class="form-control" id="basic-default-total" placeholder="Rate" required
-                            disabled [(ngModel)]="booking.rate" name="Rate">
-                        <label for="basic-default-total">Rate</label>
-                    </div>
-                    <!-- <div class="form-floating form-floating-outline mb-6">
+          <div class="form-floating form-floating-outline mb-6">
+            <input
+              type="number"
+              class="form-control"
+              id="basic-default-total"
+              placeholder="Rate"
+              required
+              disabled
+              [(ngModel)]="booking.rate"
+              name="Rate"
+            />
+            <label for="basic-default-total">Rate</label>
+          </div>
+          <!-- <div class="form-floating form-floating-outline mb-6">
                         <input type="number" class="form-control" id="basic-default-total" placeholder="Total Amount"
                             required disabled [(ngModel)]="booking.totalAmount" name="totalAmount">
                         <label for="basic-default-total">Total Amount</label>
                     </div> -->
-                    <div class="form-floating form-floating-outline mb-6">
-                        <input type="date" class="form-control" id="basic-default-dob" placeholder="YYYY-MM-DD" required
-                            [(ngModel)]="booking.specialdate" name="bookingDate">
-                        <label for="basic-default-dob">Special Date</label>
-                    </div>
-                    <!-- <div *ngFor="let coupon of booking.coupons; let i = index"
+          <div class="form-floating form-floating-outline mb-6">
+            <input
+              type="date"
+              class="form-control"
+              id="basic-default-dob"
+              placeholder="YYYY-MM-DD"
+              required
+              [(ngModel)]="booking.specialdate"
+              name="bookingDate"
+            />
+            <label for="basic-default-dob">Special Date</label>
+          </div>
+          <!-- <div *ngFor="let coupon of booking.coupons; let i = index"
                         class="form-floating form-floating-outline mb-3">
                         <input type="text" class="form-control" [(ngModel)]="booking.coupons[i]" name="coupon{{i}}"
                             placeholder="Enter coupon {{ i + 1 }}" required>
                         <label>Coupon {{ i + 1 }}</label>
                     </div> -->
-                    <div class="mb-4">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="browserDefaultSwitch" required
-                                [(ngModel)]="booking.sendToWhatsapp" name="sendToWhatsapp">
-                            <label class="form-check-label" for="browserDefaultSwitch">Send To Whatsapp</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <button *ngIf="!loading" type="submit"
-                                class="btn btn-primary waves-effect waves-light">Submit</button>
-                            <button *ngIf="loading"
-                                class="btn btn-primary waves-effect waves-light"><app-loading></app-loading> </button>
-                        </div>
-                    </div>
-                </form>
+          <div class="mb-4">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="browserDefaultSwitch"
+                required
+                [(ngModel)]="booking.sendToWhatsapp"
+                name="sendToWhatsapp"
+              />
+              <label class="form-check-label" for="browserDefaultSwitch"
+                >Send To Whatsapp</label
+              >
             </div>
-
-        </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <button
+                (click)="onSubmit()"
+                *ngIf="!loading"
+                type="button"
+                class="btn btn-primary waves-effect waves-light"
+              >
+                Submit
+              </button>
+              <button
+                *ngIf="loading"
+                class="btn btn-primary waves-effect waves-light"
+              >
+                <app-loading></app-loading>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>

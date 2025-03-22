@@ -4,14 +4,15 @@ import { Observable, tap } from 'rxjs';
 import { CouponRequest } from '../_model/booking';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BookingService {
   private apiUrl = 'https://backend.aquaxa.in/bookingreport.php/';
   private apiUrlbooking = 'https://backend.aquaxa.in/booking.php/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   generateCoupon(request: CouponRequest): Observable<any> {
+    console.log(request);
     const params = new URLSearchParams({
       stype: 'GENERATECOUPON',
       dbase: 'AQUAXA2425',
