@@ -10,3 +10,13 @@ export interface BookingForm {
   email: string
   specialdate: string
 }
+
+export interface CouponRequest {
+  dbase: string;
+  intval: number;
+  refno: string;
+  item_code: number;
+  id: number;
+  phone: string;
+  agent: number;
+}
