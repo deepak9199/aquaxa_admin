@@ -39,7 +39,11 @@
               "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
-              "src/assets/js/main.js"
+              "src/assets/vendor/libs/jquery/jquery.js",
+              "src/assets/js/main.js",
+              "src/assets/js/pages-profile-user.js",
+              "src/assets/vendor/libs/typeahead-js/typeahead.js",
+              "src/assets/vendor/libs/i18n/i18n.js"
             ],
             "server": "src/main.server.ts",
             "prerender": true,
@@ -103,7 +107,11 @@
               "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
-              "src/assets/js/main.js"
+              "src/assets/vendor/libs/jquery/jquery.js",
+              "src/assets/js/main.js",
+              "src/assets/js/pages-profile-user.js",
+              "src/assets/vendor/libs/typeahead-js/typeahead.js",
+              "src/assets/vendor/libs/i18n/i18n.js"
             ]
           }
         }
