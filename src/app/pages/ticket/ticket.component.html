@@ -90,6 +90,21 @@
             <div class="modal-body">
                 <form class="browser-default-validation" #bookingForm="ngForm" (ngSubmit)="onSubmit()">
                     <div class="form-floating form-floating-outline mb-6">
+
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text" id="basic-addon-search31">
+                                <i *ngIf="!loadingSearch" class="ri-search-line"></i>
+                                <div *ngIf="loadingSearch" class="spinner-border spinner-border-sm text-secondary"
+                                    role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </span>
+                            <input (keyup.enter)="search()" type="number" class="form-control" placeholder="Search..."
+                                aria-label="Search..." aria-describedby="basic-addon-search31" required
+                                [(ngModel)]="booking.phone" name="phone">
+                        </div>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-6">
                         <input type="text" class="form-control" id="basic-default-name" placeholder="Enter name"
                             required [(ngModel)]="booking.name" name="name">
                         <label for="basic-default-name">Name</label>
@@ -100,37 +115,38 @@
                         <label for="basic-default-address">Address</label>
                     </div>
                     <div class="form-floating form-floating-outline mb-6">
-                        <input type="number" class="form-control" id="basic-default-phone" placeholder="Enter Phone"
-                            required [(ngModel)]="booking.phone" name="phone">
-                        <label for="basic-default-phone">Phone</label>
+                        <input type="email" class="form-control" id="basic-default-address" placeholder="Enter Email"
+                            required [(ngModel)]="booking.email" name="address">
+                        <label for="basic-default-address">Email</label>
                     </div>
-                    <div class="form-floating form-floating-outline mb-6">
+
+                    <!-- <div class="form-floating form-floating-outline mb-6">
                         <input type="number" class="form-control" id="basic-default-adults"
                             (keyup)="calcuateTotalAmount()" placeholder="Enter No. of Adults/Children" required
                             [(ngModel)]="booking.numberOfAdultsChildren" name="numberOfAdultsChildren">
                         <label for="basic-default-adults">No. of Adults/Children</label>
-                    </div>
+                    </div> -->
                     <div class="form-floating form-floating-outline mb-6">
                         <input type="number" class="form-control" id="basic-default-total" placeholder="Rate" required
                             disabled [(ngModel)]="booking.rate" name="Rate">
                         <label for="basic-default-total">Rate</label>
                     </div>
-                    <div class="form-floating form-floating-outline mb-6">
+                    <!-- <div class="form-floating form-floating-outline mb-6">
                         <input type="number" class="form-control" id="basic-default-total" placeholder="Total Amount"
                             required disabled [(ngModel)]="booking.totalAmount" name="totalAmount">
                         <label for="basic-default-total">Total Amount</label>
-                    </div>
+                    </div> -->
                     <div class="form-floating form-floating-outline mb-6">
                         <input type="date" class="form-control" id="basic-default-dob" placeholder="YYYY-MM-DD" required
-                            [(ngModel)]="booking.bookingDate" name="bookingDate">
-                        <label for="basic-default-dob">Booking Date</label>
+                            [(ngModel)]="booking.specialdate" name="bookingDate">
+                        <label for="basic-default-dob">Special Date</label>
                     </div>
-                    <div *ngFor="let coupon of booking.coupons; let i = index"
+                    <!-- <div *ngFor="let coupon of booking.coupons; let i = index"
                         class="form-floating form-floating-outline mb-3">
                         <input type="text" class="form-control" [(ngModel)]="booking.coupons[i]" name="coupon{{i}}"
                             placeholder="Enter coupon {{ i + 1 }}" required>
                         <label>Coupon {{ i + 1 }}</label>
-                    </div>
+                    </div> -->
                     <div class="mb-4">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="browserDefaultSwitch" required
@@ -140,7 +156,10 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
+                            <button *ngIf="!loading" type="submit"
+                                class="btn btn-primary waves-effect waves-light">Submit</button>
+                            <button *ngIf="loading"
+                                class="btn btn-primary waves-effect waves-light"><app-loading></app-loading> </button>
                         </div>
                     </div>
                 </form>
