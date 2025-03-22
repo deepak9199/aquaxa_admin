@@ -6,18 +6,18 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 // API Base URL
-$base_url = "https://aquaxa.tensoftware.in/api/clientinfo";
+$base_url = "https://aquaxa.tensoftware.in/api/items";
 
 // Fetch query parameters from the request
 $stype = isset($_GET['stype']) ? $_GET['stype'] : 'USERDETAIL';
 $dbase = isset($_GET['dbase']) ? $_GET['dbase'] : 'aquaxa2425';
-$uname = isset($_GET['uname']) ? $_GET['uname'] : '';
+$is_web_display = isset($_GET['is_web_display']) ? $_GET['is_web_display'] : 'false';
 
 // Build query parameters dynamically
 $params = [
     'stype' => $stype,
     'dbase' => $dbase,
-    'uname' => $uname
+    'is_web_display' => $is_web_display
 ];
 
 // Build full URL with query parameters
