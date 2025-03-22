@@ -158,7 +158,6 @@ export class TicketComponent {
       }
       this.saveCustomer(customer)
     }
-
   }
   generateCouponFields(count: number) {
     this.booking.coupons = Array(count).fill('');
