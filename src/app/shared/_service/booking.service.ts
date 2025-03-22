@@ -14,7 +14,7 @@ export class BookingService {
   generateCoupon(request: CouponRequest): Observable<any> {
     const params = new URLSearchParams({
       stype: 'GENERATECOUPON',
-      dbase: request.dbase,
+      dbase: 'AQUAXA2425',
       intval: request.intval.toString(),
       refno: request.refno,
       item_code: request.item_code.toString(),

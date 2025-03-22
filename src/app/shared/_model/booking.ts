@@ -1,3 +1,5 @@
+import { Ticket } from "./ticket_model";
+
 export interface BookingForm {
   name: string;
   address: string;
@@ -9,10 +11,11 @@ export interface BookingForm {
   sendToWhatsapp: boolean;
   email: string
   specialdate: string
+  ticket: Ticket
+  
 }
 
 export interface CouponRequest {
-  dbase: string;
   intval: number;
   refno: string;
   item_code: number;
