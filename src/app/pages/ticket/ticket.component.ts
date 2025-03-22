@@ -60,11 +60,10 @@ export class TicketComponent {
     this.booking.totalAmount = this.booking.rate * this.booking.numberOfAdultsChildren
   }
 
-  ngOnDestroy() {
-    if (this.ticketSubscription) {
-      this.ticketSubscription.unsubscribe(); // Prevent memory leaks
-      console.log('Unsubscribed from ticket service.');
-    }
+
+  calculateOfferPercentage(mrp: number, rate: number): number {
+    if (!mrp || !rate || mrp <= rate) return 0; // If no MRP or no discount, return 0%
+    return Math.round(((mrp - rate) / mrp) * 100);
   }
 
   onSubmit() {
@@ -72,5 +71,11 @@ export class TicketComponent {
   }
   generateCouponFields(count: number) {
     this.booking.coupons = Array(count).fill('');
+  }
+  ngOnDestroy() {
+    if (this.ticketSubscription) {
+      this.ticketSubscription.unsubscribe(); // Prevent memory leaks
+      console.log('Unsubscribed from ticket service.');
+    }
   }
 }

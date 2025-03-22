@@ -22,15 +22,27 @@
                             <div class="card h-100">
                                 <img class="card-img-top" src="assets/img/elements/iPhone-bg.png" alt="Card image cap">
                                 <div class="card-body">
-                                    <h5 class="card-title"> {{ticketobj.item_name}} </h5>
+                                    <h5 class="card-title"> {{ ticketobj.item_name }} </h5>
                                     <p class="card-text">
-                                        {{ticketobj.rate}}
+                                        <span class="text-muted text-decoration-line-through" *ngIf="ticketobj.mrp">
+                                            MRP: {{ ticketobj.mrp }}/-
+                                        </span>
+                                        <br />
+                                        <span class="fw-bold">
+                                            Price: {{ ticketobj.rate }}/-
+                                        </span>
+                                        <span class="text-success" *ngIf="ticketobj.mrp">
+                                            ({{ calculateOfferPercentage(ticketobj.mrp, ticketobj.rate) }}% OFF)
+                                        </span>
                                     </p>
                                     <a (click)="selectedTicket(ticketobj)" type="button"
                                         class="btn btn-outline-primary waves-effect" data-bs-toggle="modal"
                                         data-bs-target="#modalCenter">
-                                        Book</a>
+                                        Book
+                                    </a>
                                 </div>
+
+
                             </div>
                         </div>
 

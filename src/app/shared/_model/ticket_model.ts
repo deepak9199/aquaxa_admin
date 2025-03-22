@@ -5,7 +5,7 @@ export interface Ticket {
     gst: number;
     user_code: string;
     rate: number;
-    mrp: string;
+    mrp: number;
     expiry_days: number;
     staff_margin: number;
     group_code: number;
