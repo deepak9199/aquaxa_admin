@@ -53,6 +53,7 @@
                     </td>
                     <td>
                       <button
+                        (click)="select(booking.coupon_no)"
                         type="button"
                         class="btn btn-primary waves-effect waves-light"
                         data-bs-toggle="modal"
@@ -114,50 +115,17 @@
         ></button>
       </div>
       <div class="modal-body">
-        <div class="row">
-          <div class="col mb-6 mt-2">
-            <div class="form-floating form-floating-outline">
-              <input
-                type="text"
-                id="nameWithTitle"
-                class="form-control"
-                placeholder="Enter Name"
-              />
-              <label for="nameWithTitle">Name</label>
-            </div>
-          </div>
+        <div class="demo-inline-spacing mt-4">
+          <ul class="list-group">
+            <li
+              *ngFor="let coupon of selectedCoupons"
+              class="list-group-item d-flex align-items-center"
+            >
+              <i class="ri-computer-line ri-22px me-3"></i>
+              {{ coupon }}
+            </li>
+          </ul>
         </div>
-        <div class="row g-4">
-          <div class="col mb-2">
-            <div class="form-floating form-floating-outline">
-              <input
-                type="email"
-                id="emailWithTitle"
-                class="form-control"
-                placeholder="xxxx@xxx.xx"
-              />
-              <label for="emailWithTitle">Email</label>
-            </div>
-          </div>
-          <div class="col mb-2">
-            <div class="form-floating form-floating-outline">
-              <input type="date" id="dobWithTitle" class="form-control" />
-              <label for="dobWithTitle">DOB</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-outline-secondary waves-effect"
-          data-bs-dismiss="modal"
-        >
-          Close
-        </button>
-        <button type="button" class="btn btn-primary waves-effect waves-light">
-          Save changes
-        </button>
       </div>
     </div>
   </div>

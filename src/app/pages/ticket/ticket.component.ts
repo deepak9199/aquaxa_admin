@@ -120,7 +120,7 @@ export class TicketComponent {
     this.ticketSubscription.add(
       this.customerService.insertCustomer(customer).subscribe({
         next: (response) => {
-          console.log('Response:', response);
+          // console.log('Response:', response);
           if (response[0].issaved)
             this.findCustomer(booking.phone, booking, paymentRef, true);
         },
@@ -152,7 +152,7 @@ export class TicketComponent {
     this.ticketSubscription.add(
       this.customerService.findCustomers('AQUAXA2425', '', number).subscribe({
         next: (response) => {
-          console.log('Customers:', response);
+          // console.log('Customers:', response);
           this.findCustomers = response[0];
           if (this.findCustomers.isfound) {
             this.booking.name = this.findCustomers.acname;
@@ -167,9 +167,10 @@ export class TicketComponent {
                   refno: paymentRef,
                   item_code: booking.ticket.id,
                   id: this.findCustomers.id,
-                  phone: '',
+                  phone: booking.phone,
                   agent: this.agentid,
                 };
+                console.log(coupons);
                 this.generateCoupons(coupons);
               }
           } else {
@@ -285,27 +286,49 @@ export class TicketComponent {
     return Math.round(((mrp - rate) / mrp) * 100);
   }
   onSubmit() {
-    console.log(this.findCustomers.isfound);
-    if (this.findCustomers.isfound === true) {
-      let coupons: CouponRequest = {
-        intval: this.booking.ticket.coupons,
-        refno: this.getRandomStrings(10),
-        item_code: this.booking.ticket.id,
-        id: this.findCustomers.id,
-        phone: '',
-        agent: this.agentid,
-      };
-      this.generateCoupons(coupons);
+    // console.log(this.booking);
+    let { name, address, phone, specialdate, email } = this.booking;
+
+    let missingFields: string[] = [];
+
+    if (!this.isValid(name)) missingFields.push('name');
+    if (!this.isValid(address)) missingFields.push('address');
+    if (!this.isValid(phone)) missingFields.push('phone');
+    if (!this.isValid(specialdate)) missingFields.push('specialdate');
+    if (!this.isValid(email)) missingFields.push('email');
+
+    if (missingFields.length > 0) {
+      this.toster.error(
+        `Validation failed: Missing fields - ${missingFields.join(', ')}`
+      );
     } else {
-      let customer: saveCustomer = {
-        cname: this.booking.name,
-        addr: this.booking.address,
-        phone: this.booking.phone,
-        dob: this.booking.specialdate,
-        email: this.booking.email,
-      };
-      this.saveCustomer(customer, this.booking, 'UPI4578423');
+      if (this.findCustomers.isfound === true) {
+        let coupons: CouponRequest = {
+          intval: this.booking.ticket.coupons,
+          refno: this.getRandomStrings(10),
+          item_code: this.booking.ticket.id,
+          id: this.findCustomers.id,
+          phone: this.booking.phone,
+          agent: this.agentid,
+        };
+        console.log(coupons);
+        this.generateCoupons(coupons);
+      } else {
+        let customer: saveCustomer = {
+          cname: this.booking.name,
+          addr: this.booking.address,
+          phone: this.booking.phone,
+          dob: this.booking.specialdate,
+          email: this.booking.email,
+        };
+        this.saveCustomer(customer, this.booking, 'UPI4578423');
+      }
     }
+  }
+  private isValid(value: any): boolean {
+    return (
+      value !== null && value !== undefined && value.toString().trim() !== ''
+    );
   }
   generateCouponFields(count: number) {
     this.booking.coupons = Array(count).fill('');

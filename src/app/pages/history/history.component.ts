@@ -13,8 +13,9 @@ import { BookingList } from '../../shared/_model/booking';
 export class HistoryComponent {
   loading: boolean = false;
   bookingList: BookingList[] = [];
+  selectedCoupons: string[] = [];
+  private bookingHistorySubscription: Subscription = new Subscription();
   private agentID: number = 0;
-  bookingHistorySubscription: Subscription = new Subscription();
   constructor(
     private bookingService: BookingService,
     private token: TokenStorageService
@@ -30,13 +31,15 @@ export class HistoryComponent {
       console.error('User Data Not Found');
     }
   }
-
+  select(coupons: string[]) {
+    this.selectedCoupons = coupons;
+  }
   private fetchBookingHistory() {
     this.loading = true;
     this.bookingHistorySubscription.add(
       this.bookingService.getAgentBookings(this.agentID).subscribe({
         next: (response) => {
-          console.log('response : ', response);
+          // console.log('response : ', response);
           this.bookingList = response;
         },
         error: (err) => {
