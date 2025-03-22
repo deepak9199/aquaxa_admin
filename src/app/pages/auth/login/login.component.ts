@@ -89,7 +89,7 @@ export class LoginComponent {
         break;
       }
       case 'salesman': {
-        this.router.navigate(['/dashboard']).then(() => {
+        this.router.navigate(['/booking']).then(() => {
           window.location.reload()
         });
         break

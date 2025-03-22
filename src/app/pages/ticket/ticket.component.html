@@ -1,32 +1,15 @@
 <div class="layout-wrapper layout-content-navbar  ">
     <div class="layout-container">
-
-
-
-
-
-
-
         <!-- Menu -->
-
         <app-side-bar></app-side-bar>
         <!-- / Menu -->
-
-
 
         <!-- Layout container -->
         <div class="layout-page">
 
-
-
-
-
             <!-- Navbar -->
-
             <app-nav></app-nav>
             <!-- / Navbar -->
-
-
 
             <!-- Content wrapper -->
             <div class="content-wrapper">
@@ -34,8 +17,6 @@
                 <!-- Content -->
 
                 <div class="container-xxl flex-grow-1 container-p-y">
-
-
                     <div class="row mb-12 g-6">
                         <div *ngFor="let ticketobj of tickets" class="col-md-3 col-lg-3">
                             <div class="card h-100">
@@ -45,7 +26,8 @@
                                     <p class="card-text">
                                         {{ticketobj.rate}}
                                     </p>
-                                    <a type="button" class="btn btn-outline-primary waves-effect" data-bs-toggle="modal"
+                                    <a (click)="selectedTicket(ticketobj)" type="button"
+                                        class="btn btn-outline-primary waves-effect" data-bs-toggle="modal"
                                         data-bs-target="#modalCenter">
                                         Book</a>
                                 </div>
@@ -56,9 +38,6 @@
 
                 </div>
                 <!-- / Content -->
-
-
-
 
                 <!-- Footer -->
                 <app-footer></app-footer>
@@ -97,35 +76,64 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col mb-6 mt-2">
-                        <div class="form-floating form-floating-outline">
-                            <input type="text" id="nameWithTitle" class="form-control" placeholder="Enter Name">
-                            <label for="nameWithTitle">Name</label>
+                <form class="browser-default-validation" #bookingForm="ngForm" (ngSubmit)="onSubmit()">
+                    <div class="form-floating form-floating-outline mb-6">
+                        <input type="text" class="form-control" id="basic-default-name" placeholder="Enter name"
+                            required [(ngModel)]="booking.name" name="name">
+                        <label for="basic-default-name">Name</label>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-6">
+                        <input type="text" class="form-control" id="basic-default-address" placeholder="Enter Address"
+                            required [(ngModel)]="booking.address" name="address">
+                        <label for="basic-default-address">Address</label>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-6">
+                        <input type="number" class="form-control" id="basic-default-phone" placeholder="Enter Phone"
+                            required [(ngModel)]="booking.phone" name="phone">
+                        <label for="basic-default-phone">Phone</label>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-6">
+                        <input type="number" class="form-control" id="basic-default-adults"
+                            (keyup)="calcuateTotalAmount()" placeholder="Enter No. of Adults/Children" required
+                            [(ngModel)]="booking.numberOfAdultsChildren" name="numberOfAdultsChildren">
+                        <label for="basic-default-adults">No. of Adults/Children</label>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-6">
+                        <input type="number" class="form-control" id="basic-default-total" placeholder="Rate" required
+                            disabled [(ngModel)]="booking.rate" name="Rate">
+                        <label for="basic-default-total">Rate</label>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-6">
+                        <input type="number" class="form-control" id="basic-default-total" placeholder="Total Amount"
+                            required disabled [(ngModel)]="booking.totalAmount" name="totalAmount">
+                        <label for="basic-default-total">Total Amount</label>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-6">
+                        <input type="date" class="form-control" id="basic-default-dob" placeholder="YYYY-MM-DD" required
+                            [(ngModel)]="booking.bookingDate" name="bookingDate">
+                        <label for="basic-default-dob">Booking Date</label>
+                    </div>
+                    <div *ngFor="let coupon of booking.coupons; let i = index"
+                        class="form-floating form-floating-outline mb-3">
+                        <input type="text" class="form-control" [(ngModel)]="booking.coupons[i]" name="coupon{{i}}"
+                            placeholder="Enter coupon {{ i + 1 }}" required>
+                        <label>Coupon {{ i + 1 }}</label>
+                    </div>
+                    <div class="mb-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="browserDefaultSwitch" required
+                                [(ngModel)]="booking.sendToWhatsapp" name="sendToWhatsapp">
+                            <label class="form-check-label" for="browserDefaultSwitch">Send To Whatsapp</label>
                         </div>
                     </div>
-                </div>
-                <div class="row g-4">
-                    <div class="col mb-2">
-                        <div class="form-floating form-floating-outline">
-                            <input type="email" id="emailWithTitle" class="form-control" placeholder="xxxx@xxx.xx">
-                            <label for="emailWithTitle">Email</label>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
                         </div>
                     </div>
-                    <div class="col mb-2">
-                        <div class="form-floating form-floating-outline">
-                            <input type="date" id="dobWithTitle" class="form-control">
-                            <label for="dobWithTitle">DOB</label>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary waves-effect"
-                    data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary waves-effect waves-light">Save
-                    changes</button>
-            </div>
+
         </div>
     </div>
 </div>
