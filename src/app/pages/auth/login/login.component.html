@@ -1,84 +1,136 @@
 <div class="authentication-wrapper authentication-cover">
-    <!-- Logo -->
-    <a href="/" class="auth-cover-brand d-flex align-items-center gap-2">
-        <span class="app-brand-logo demo">
-            <img src="assets/img/logo/logo.png" alt="Auqaxa | Water Park" width="60">
-        </span>
-        <span class="app-brand-text demo text-heading fw-semibold">Auqaxa | Water Park</span>
-    </a>
-    <!-- /Logo -->
-    <div class="authentication-inner row m-0">
-        <!-- /Left Section -->
-        <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center justify-content-center p-12 pb-2">
-            <img src="assets/img/illustrations/auth-login-illustration-light.png" class="auth-cover-illustration w-100"
-                alt="auth-illustration" data-app-light-img="illustrations/auth-login-illustration-light.png"
-                data-app-dark-img="illustrations/auth-login-illustration-dark.html" />
-            <img src="assets/img/illustrations/auth-cover-login-mask-light.png" class="authentication-image" alt="mask"
-                data-app-light-img="illustrations/auth-cover-login-mask-light.png"
-                data-app-dark-img="illustrations/auth-cover-login-mask-dark.html" />
-        </div>
-        <!-- /Left Section -->
+  <!-- Logo -->
+  <a href="/" class="auth-cover-brand d-flex align-items-center gap-2">
+    <span class="app-brand-logo demo">
+      <img
+        src="assets/img/logo/logo.png"
+        alt="Auqaxa | Water Park"
+        width="60"
+      />
+    </span>
+    <span class="app-brand-text demo text-heading fw-semibold"
+      >Auqaxa | Water Park</span
+    >
+  </a>
+  <!-- /Logo -->
+  <div class="authentication-inner row m-0">
+    <!-- /Left Section -->
+    <div
+      class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center justify-content-center p-12 pb-2"
+    >
+      <img
+        src="assets/img/illustrations/auth-login-illustration-light.png"
+        class="auth-cover-illustration w-100"
+        alt="auth-illustration"
+        data-app-light-img="illustrations/auth-login-illustration-light.png"
+        data-app-dark-img="illustrations/auth-login-illustration-dark.html"
+      />
+      <img
+        src="assets/img/illustrations/auth-cover-login-mask-light.png"
+        class="authentication-image"
+        alt="mask"
+        data-app-light-img="illustrations/auth-cover-login-mask-light.png"
+        data-app-dark-img="illustrations/auth-cover-login-mask-dark.html"
+      />
+    </div>
+    <!-- /Left Section -->
 
-        <!-- Login -->
-        <div
-            class="d-flex col-12 col-lg-5 col-xl-4 align-items-center authentication-bg position-relative py-sm-12 px-12 py-6">
-            <div class="w-px-400 mx-auto pt-5 pt-lg-0">
-                <h4 class="mb-1">Welcome to Auqaxa! 👋</h4>
-                <p class="mb-5">Please sign-in to your Sales Man account </p>
+    <!-- Login -->
+    <div
+      class="d-flex col-12 col-lg-5 col-xl-4 align-items-center authentication-bg position-relative py-sm-12 px-12 py-6"
+    >
+      <div class="w-px-400 mx-auto pt-5 pt-lg-0">
+        <h4 class="mb-1">Welcome to Auqaxa! 👋</h4>
+        <p class="mb-5">Please sign-in to your Sales Man account</p>
 
-                <form #myLoginForm="ngForm" (ngSubmit)="signIn(); myLoginForm.reset()" class="mb-5">
+        <form
+          #myLoginForm="ngForm"
+          (ngSubmit)="signIn(); myLoginForm.reset()"
+          class="mb-5"
+        >
+          <div class="form-floating form-floating-outline mb-5">
+            <input
+              [(ngModel)]="form_login.email"
+              name="usernameid"
+              #email="ngModel"
+              type="text"
+              class="form-control"
+              id="usernameid"
+              placeholder="Enter your Username"
+              minlength="3"
+              required
+            />
+            <label for="usernameid">Enter Your Username</label>
+            <div *ngIf="email.invalid && email.touched" class="text-danger">
+              <small *ngIf="email.errors?.['minlength']"
+                >Must be at least 3 characters long.</small
+              >
+            </div>
+          </div>
 
-                    <div class="form-floating form-floating-outline mb-5">
-                        <input [(ngModel)]="form_login.email" name="usernameid" #email="ngModel" type="text"
-                            class="form-control" id="usernameid" placeholder="Enter your ID or Username or Phone"
-                            minlength="3" required>
-                        <label for="usernameid">ID or Username or Phone</label>
-                        <div *ngIf="email.invalid && email.touched" class="text-danger">
-                            <small *ngIf="email.errors?.['minlength']">Must be at least 3 characters long.</small>
-                        </div>
-                    </div>
+          <div class="mb-5">
+            <div class="form-password-toggle">
+              <div class="input-group input-group-merge">
+                <div class="form-floating form-floating-outline">
+                  <input
+                    [(ngModel)]="form_login.password"
+                    name="pin"
+                    #password="ngModel"
+                    type="password"
+                    id="pin"
+                    class="form-control"
+                    placeholder="Pin"
+                    minlength="3"
+                    required
+                  />
+                  <label for="pin">Pin</label>
+                </div>
+                <span class="input-group-text cursor-pointer"
+                  ><i class="ri-eye-off-line"></i
+                ></span>
+              </div>
+            </div>
+            <div
+              *ngIf="password.invalid && password.touched"
+              class="text-danger"
+            >
+              <small *ngIf="password.errors?.['minlength']"
+                >Must be at least 3 characters long.</small
+              >
+            </div>
+          </div>
 
-                    <div class="mb-5">
-                        <div class="form-password-toggle">
-                            <div class="input-group input-group-merge">
-                                <div class="form-floating form-floating-outline">
-                                    <input [(ngModel)]="form_login.password" name="pin" #password="ngModel"
-                                        type="password" id="pin" class="form-control" placeholder="Pin" minlength="3"
-                                        required />
-                                    <label for="pin">Pin</label>
-                                </div>
-                                <span class="input-group-text cursor-pointer"><i class="ri-eye-off-line"></i></span>
-                            </div>
-                        </div>
-                        <div *ngIf="password.invalid && password.touched" class="text-danger">
-                            <small *ngIf="password.errors?.['minlength']">Must be at least 3 characters long.</small>
-                        </div>
-                    </div>
+          <div class="mb-5 d-flex justify-content-between mt-5">
+            <div class="form-check mt-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="remember-me"
+              />
+              <label class="form-check-label" for="remember-me">
+                Remember Me
+              </label>
+            </div>
+          </div>
 
-                    <div class="mb-5 d-flex justify-content-between mt-5">
-                        <div class="form-check mt-2">
-                            <input class="form-check-input" type="checkbox" id="remember-me">
-                            <label class="form-check-label" for="remember-me">
-                                Remember Me
-                            </label>
-                        </div>
-                    </div>
+          <button
+            *ngIf="!loading"
+            class="btn btn-primary d-grid w-100"
+            [disabled]="myLoginForm.invalid"
+          >
+            Sign in
+          </button>
+          <app-loading-button *ngIf="loading"></app-loading-button>
+        </form>
 
-                    <button *ngIf="!loading" class="btn btn-primary d-grid w-100" [disabled]="myLoginForm.invalid">
-                        Sign in
-                    </button>
-                    <app-loading-button *ngIf="loading"></app-loading-button>
-                </form>
-
-
-                <!-- <p class="text-center">
+        <!-- <p class="text-center">
                     <span>New on our platform?</span>
                     <a href="">
                         <span>Create an account</span>
                     </a>
                 </p> -->
 
-                <!-- <div class="divider my-5">
+        <!-- <div class="divider my-5">
                     <div class="divider-text">or</div>
                 </div>
 
@@ -99,8 +151,8 @@
                         <i class="tf-icons ri-google-fill"></i>
                     </a>
                 </div> -->
-            </div>
-        </div>
-        <!-- /Login -->
+      </div>
     </div>
+    <!-- /Login -->
+  </div>
 </div>
