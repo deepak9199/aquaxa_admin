@@ -22,6 +22,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { AuthGuard } from './shared/_guards/guard';
 import { LoadingButtonComponent } from './component/loading-button/loading-button.component';
 import { HistoryComponent } from './pages/history/history.component';
+import { LodingBarsComponent } from './component/loding-bars/loding-bars.component';
+import { LodingCardBarComponent } from './component/loding-card-bar/loding-card-bar.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { HistoryComponent } from './pages/history/history.component';
     ForgetPasswordComponent,
     ProfileComponent,
     LoadingButtonComponent,
-    HistoryComponent
+    HistoryComponent,
+    LodingBarsComponent,
+    LodingCardBarComponent
   ],
   imports: [
     BrowserModule,

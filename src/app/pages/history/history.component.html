@@ -64,6 +64,13 @@
                     </td>
                   </tr>
                 </tbody>
+                <tbody *ngIf="loading" class="table-border-bottom-0">
+                  <tr>
+                    <td colspan="5" >
+                      <app-loding-bars></app-loding-bars>
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>
