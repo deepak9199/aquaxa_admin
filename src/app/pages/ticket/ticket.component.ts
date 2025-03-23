@@ -24,6 +24,7 @@ export class TicketComponent {
   tickets: Ticket[] = [];
   loading: boolean = false;
   loadingSearch: boolean = false;
+  refnumber: string = '';
   findCustomers: ClientDetail = {
     acname: '',
     type: '',
@@ -309,29 +310,34 @@ export class TicketComponent {
         `Validation failed: Missing fields - ${missingFields.join(', ')}`
       );
     } else {
-      if (this.findCustomers.isfound === true) {
-        let coupons: CouponRequest = {
-          intval: this.booking.ticket.coupons,
-          refno: this.getRandomStrings(10),
-          item_code: this.booking.ticket.id,
-          id: this.findCustomers.id,
-          phone: this.booking.phone,
-          agent: this.agentid,
-        };
-        console.log(coupons);
-        const ref = document.getElementById('closeModelBooking');
-        if (ref) ref.click(), this.openModal();
-        // this.generateCoupons(coupons);
-      } else {
-        let customer: saveCustomer = {
-          cname: this.booking.name,
-          addr: this.booking.address,
-          phone: this.booking.phone,
-          dob: this.booking.specialdate,
-          email: this.booking.email,
-        };
-        this.saveCustomer(customer, this.booking, 'UPI4578423');
-      }
+      const ref = document.getElementById('closeModelBooking');
+      if (ref)
+        ref.click(),
+          (this.refnumber = this.getRandomStrings(10)),
+          this.openModal();
+    }
+  }
+  onSubmitPayment() {
+    if (this.findCustomers.isfound === true) {
+      let coupons: CouponRequest = {
+        intval: this.booking.ticket.coupons,
+        refno: this.refnumber,
+        item_code: this.booking.ticket.id,
+        id: this.findCustomers.id,
+        phone: this.booking.phone,
+        agent: this.agentid,
+      };
+      console.log(coupons);
+      // this.generateCoupons(coupons);
+    } else {
+      let customer: saveCustomer = {
+        cname: this.booking.name,
+        addr: this.booking.address,
+        phone: this.booking.phone,
+        dob: this.booking.specialdate,
+        email: this.booking.email,
+      };
+      this.saveCustomer(customer, this.booking, this.refnumber);
     }
   }
   private isValid(value: any): boolean {
