@@ -102,8 +102,30 @@ export class TicketComponent {
   selectedTicket(obj: Ticket) {
     this.booking.rate = obj.rate;
     this.booking.ticket = obj;
-    // console.log(this.booking);
-    // this.generatedCoupons = [];
+    this.generatedCoupons = [];
+    this.findCustomers = {
+      acname: '',
+      type: '',
+      address: '',
+      dob: '',
+      doa: null,
+      loyalty: 0,
+      id: 0,
+      gender: '',
+      religion: null,
+      remarks: null,
+      subtype: null,
+      phone: '',
+      agent: null,
+      email: '',
+      identity_type: null,
+      identity_no: null,
+      nation: null,
+      business_id: 0,
+      isfound: false,
+      cdp: 0,
+      expiry_date: null,
+    };
     // this.generateCouponFields(obj.coupons);
   }
   search() {
@@ -155,7 +177,8 @@ export class TicketComponent {
     number: string,
     booking?: BookingForm,
     paymentRef?: string,
-    isgenerateCoupon: boolean = false
+    isgenerateCoupon: boolean = false,
+    savecustomer?: saveCustomer
   ) {
     this.loadingSearch = true;
     this.ticketSubscription.add(
@@ -180,26 +203,30 @@ export class TicketComponent {
                   phone: booking.phone,
                   agent: this.agentid,
                 };
-                console.log(coupons);
+                // console.log(coupons);
                 const ref = document.getElementById('closeModelBooking');
                 if (ref) ref.click(), this.openModal('paymentButton');
                 this.generateCoupons(coupons);
               }
           } else {
-            this.toster.error('Customer Detail Not Found');
-            this.booking = {
-              name: '',
-              address: '',
-              phone: number,
-              numberOfAdultsChildren: 0,
-              totalAmount: 0,
-              coupons: [],
-              sendToWhatsapp: false,
-              rate: booking ? booking.ticket.rate : 0,
-              email: '',
-              specialdate: '',
-              ticket: booking ? booking.ticket : ({} as Ticket),
-            };
+            if (savecustomer) {
+              this.saveCustomer(savecustomer, this.booking, this.refnumber);
+            } else {
+              this.toster.error('Customer Detail Not Found');
+              this.booking = {
+                name: '',
+                address: '',
+                phone: number,
+                numberOfAdultsChildren: 0,
+                totalAmount: 0,
+                coupons: [],
+                sendToWhatsapp: false,
+                rate: booking ? booking.ticket.rate : 0,
+                email: '',
+                specialdate: '',
+                ticket: booking ? booking.ticket : ({} as Ticket),
+              };
+            }
           }
         },
         error: (error) => {
@@ -314,21 +341,29 @@ export class TicketComponent {
         email: this.booking.email,
       };
       if (this.findCustomers.isfound === true) {
+        console.log('Customer already exists');
         if (ref)
           ref.click(),
             (this.refnumber = this.getRandomStrings(10)),
             this.openModal('paymentButton');
       } else {
+        console.log('Customer not found');
         if (ref)
           ref.click(),
             (this.refnumber = this.getRandomStrings(10)),
-            this.saveCustomer(customer, this.booking, this.refnumber),
+            this.findCustomer(
+              this.booking.phone,
+              this.booking,
+              this.refnumber,
+              false,
+              customer
+            ),
             this.openModal('paymentButton');
       }
     }
   }
   onSubmitPayment() {
-    console.log(this.booking);
+    // console.log(this.booking);
     if (this.findCustomers.isfound === true) {
       let coupons: CouponRequest = {
         intval: this.booking.ticket.coupons,
@@ -338,7 +373,7 @@ export class TicketComponent {
         phone: this.booking.phone,
         agent: this.agentid,
       };
-      console.log(coupons);
+      // console.log(coupons);
       this.generateCoupons(coupons);
     } else {
       this.findCustomer(this.booking.phone, this.booking, this.refnumber, true);
