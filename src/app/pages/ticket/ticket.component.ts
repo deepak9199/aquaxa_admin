@@ -49,7 +49,6 @@ export class TicketComponent {
     cdp: 0,
     expiry_date: null,
   };
-  private agentid: number = 0;
   booking: BookingForm = {
     name: '',
     address: '',
@@ -79,6 +78,8 @@ export class TicketComponent {
   };
   generatedCoupons: generatedCoupon[] = [];
   private ticketSubscription = new Subscription(); // Store the subscription
+  private agentid: number = 0;
+
   constructor(
     private token: TokenStorageService,
     private ticketService: ItemsService,
@@ -102,7 +103,8 @@ export class TicketComponent {
     this.booking.rate = obj.rate;
     this.booking.ticket = obj;
     // console.log(this.booking);
-    this.generateCouponFields(obj.coupons);
+    // this.generatedCoupons = [];
+    // this.generateCouponFields(obj.coupons);
   }
   search() {
     this.findCustomer(this.booking.phone, this.booking);
@@ -123,9 +125,9 @@ export class TicketComponent {
     this.ticketSubscription.add(
       this.customerService.insertCustomer(customer).subscribe({
         next: (response) => {
-          // console.log('Response:', response);
-          if (response[0].issaved)
-            this.findCustomer(booking.phone, booking, paymentRef, true);
+          // console.log('Response:', booking, response);
+          if (response[0].issaved) {
+          }
         },
         error: (error) => console.error('Error:', error),
         complete: () => {
@@ -159,7 +161,7 @@ export class TicketComponent {
     this.ticketSubscription.add(
       this.customerService.findCustomers('AQUAXA2425', '', number).subscribe({
         next: (response) => {
-          console.log('Customers:', response);
+          // console.log('Customers:', response, booking, paymentRef);
           this.findCustomers = response[0];
           if (this.findCustomers.isfound) {
             this.booking.name = this.findCustomers.acname;
@@ -196,21 +198,7 @@ export class TicketComponent {
               rate: booking ? booking.ticket.rate : 0,
               email: '',
               specialdate: '',
-              ticket: {
-                id: 0,
-                item_name: '',
-                item_type: 'PRODUCT',
-                gst: 0,
-                user_code: '',
-                rate: 0,
-                mrp: 0,
-                expiry_days: 0,
-                staff_margin: 0,
-                group_code: 0,
-                is_web_display: false,
-                image1: '',
-                coupons: 0,
-              },
+              ticket: booking ? booking.ticket : ({} as Ticket),
             };
           }
         },
@@ -242,41 +230,45 @@ export class TicketComponent {
     this.ticketSubscription.add(
       this.couponService.generateCoupon(coupons).subscribe({
         next: (response) => {
-          console.log('Coupon Generated:', response);
-          const ref = document.getElementById('closeModelBooking');
-          if (ref)
-            ref.click(),
-              (this.generatedCoupons = response),
-              this.ngOnInit(),
-              this.toster.success('Ticket Booked'),
-              (this.booking = {
-                name: '',
-                address: '',
-                phone: '',
-                numberOfAdultsChildren: 0,
-                totalAmount: 0,
-                coupons: [],
-                sendToWhatsapp: false,
-                rate: 0,
-                email: '',
-                specialdate: '',
-                ticket: {
-                  id: 0,
-                  item_name: '',
-                  item_type: 'PRODUCT',
-                  gst: 0,
-                  user_code: '',
+          // console.log('Coupon Generated:', response);
+          if (response.Message) {
+            this.toster.error(response.Message);
+          } else {
+            const ref = document.getElementById('closeModelBooking');
+            if (ref)
+              ref.click(),
+                (this.generatedCoupons = response),
+                this.ngOnInit(),
+                this.toster.success('Ticket Booked'),
+                (this.booking = {
+                  name: '',
+                  address: '',
+                  phone: '',
+                  numberOfAdultsChildren: 0,
+                  totalAmount: 0,
+                  coupons: [],
+                  sendToWhatsapp: false,
                   rate: 0,
-                  mrp: 0,
-                  expiry_days: 0,
-                  staff_margin: 0,
-                  group_code: 0,
-                  is_web_display: false,
-                  image1: '',
-                  coupons: 0,
-                },
-              }),
-              this.openModal('couponsButton');
+                  email: '',
+                  specialdate: '',
+                  ticket: {
+                    id: 0,
+                    item_name: '',
+                    item_type: 'PRODUCT',
+                    gst: 0,
+                    user_code: '',
+                    rate: 0,
+                    mrp: 0,
+                    expiry_days: 0,
+                    staff_margin: 0,
+                    group_code: 0,
+                    is_web_display: false,
+                    image1: '',
+                    coupons: 0,
+                  },
+                }),
+                this.openModal('couponsButton');
+          }
         },
         error: (error) => {
           console.error('Error generating coupon:', error);
@@ -314,13 +306,29 @@ export class TicketComponent {
       );
     } else {
       const ref = document.getElementById('closeModelBooking');
-      if (ref)
-        ref.click(),
-          (this.refnumber = this.getRandomStrings(10)),
-          this.openModal('paymentButton');
+      let customer: saveCustomer = {
+        cname: this.booking.name,
+        addr: this.booking.address,
+        phone: this.booking.phone,
+        dob: this.booking.specialdate,
+        email: this.booking.email,
+      };
+      if (this.findCustomers.isfound === true) {
+        if (ref)
+          ref.click(),
+            (this.refnumber = this.getRandomStrings(10)),
+            this.openModal('paymentButton');
+      } else {
+        if (ref)
+          ref.click(),
+            (this.refnumber = this.getRandomStrings(10)),
+            this.saveCustomer(customer, this.booking, this.refnumber),
+            this.openModal('paymentButton');
+      }
     }
   }
   onSubmitPayment() {
+    console.log(this.booking);
     if (this.findCustomers.isfound === true) {
       let coupons: CouponRequest = {
         intval: this.booking.ticket.coupons,
@@ -333,14 +341,7 @@ export class TicketComponent {
       console.log(coupons);
       this.generateCoupons(coupons);
     } else {
-      let customer: saveCustomer = {
-        cname: this.booking.name,
-        addr: this.booking.address,
-        phone: this.booking.phone,
-        dob: this.booking.specialdate,
-        email: this.booking.email,
-      };
-      this.saveCustomer(customer, this.booking, this.refnumber);
+      this.findCustomer(this.booking.phone, this.booking, this.refnumber, true);
     }
   }
   private isValid(value: any): boolean {
