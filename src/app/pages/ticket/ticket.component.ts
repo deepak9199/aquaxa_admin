@@ -210,6 +210,7 @@ export class TicketComponent {
               }
           } else {
             if (savecustomer) {
+              console.log('Customer not found, saving customer:', savecustomer);
               this.saveCustomer(savecustomer, this.booking, this.refnumber);
             } else {
               this.toster.error('Customer Detail Not Found');
