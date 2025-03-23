@@ -13,6 +13,7 @@ import { CustomerService } from '../../shared/_service/customer.service';
 import { ToastrService } from 'ngx-toastr';
 import { BookingService } from '../../shared/_service/booking.service';
 import { TokenStorageService } from '../../shared/_service/token-storage.service';
+import { generatedCoupon } from '../../shared/_model/coupons';
 
 @Component({
   selector: 'app-ticket',
@@ -76,6 +77,7 @@ export class TicketComponent {
       coupons: 0,
     },
   };
+  generatedCoupons: generatedCoupon[] = [];
   private ticketSubscription = new Subscription(); // Store the subscription
   constructor(
     private token: TokenStorageService,
@@ -133,8 +135,8 @@ export class TicketComponent {
       })
     );
   }
-  openModal() {
-    const ref = document.getElementById('paymentButton');
+  openModal(id: string) {
+    const ref = document.getElementById(id);
     if (ref) ref.click();
   }
   private convertToDateString(dob: string): string | null {
@@ -178,8 +180,8 @@ export class TicketComponent {
                 };
                 console.log(coupons);
                 const ref = document.getElementById('closeModelBooking');
-                if (ref) ref.click(), this.openModal();
-                // this.generateCoupons(coupons);
+                if (ref) ref.click(), this.openModal('paymentButton');
+                this.generateCoupons(coupons);
               }
           } else {
             this.toster.error('Customer Detail Not Found');
@@ -244,6 +246,7 @@ export class TicketComponent {
           const ref = document.getElementById('closeModelBooking');
           if (ref)
             ref.click(),
+              (this.generatedCoupons = response),
               this.ngOnInit(),
               this.toster.success('Ticket Booked'),
               (this.booking = {
@@ -272,8 +275,8 @@ export class TicketComponent {
                   image1: '',
                   coupons: 0,
                 },
-              });
-          // this.couponResponse = response;
+              }),
+              this.openModal('couponsButton');
         },
         error: (error) => {
           console.error('Error generating coupon:', error);
@@ -314,7 +317,7 @@ export class TicketComponent {
       if (ref)
         ref.click(),
           (this.refnumber = this.getRandomStrings(10)),
-          this.openModal();
+          this.openModal('paymentButton');
     }
   }
   onSubmitPayment() {
@@ -328,7 +331,7 @@ export class TicketComponent {
         agent: this.agentid,
       };
       console.log(coupons);
-      // this.generateCoupons(coupons);
+      this.generateCoupons(coupons);
     } else {
       let customer: saveCustomer = {
         cname: this.booking.name,

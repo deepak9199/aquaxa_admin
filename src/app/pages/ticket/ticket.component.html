@@ -368,3 +368,48 @@
     </div>
   </div>
 </div>
+<!-- coupons -->
+<button
+  hidden
+  id="couponsButton"
+  type="button"
+  class="btn btn-primary waves-effect waves-light"
+  data-bs-toggle="modal"
+  data-bs-target="#modalCentercoupons"
+>
+  Show
+</button>
+<div
+  class="modal fade"
+  id="modalCentercoupons"
+  tabindex="-1"
+  style="display: none"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modalCenterTitle">Coupons</h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="demo-inline-spacing mt-4">
+          <ul class="list-group">
+            <li
+              *ngFor="let coupon of generatedCoupons"
+              class="list-group-item d-flex align-items-center"
+            >
+              <i class="ri-computer-line ri-22px me-3"></i>
+              {{ coupon.coupon_no }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
