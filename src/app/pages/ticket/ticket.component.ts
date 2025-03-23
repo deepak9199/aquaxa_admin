@@ -132,6 +132,10 @@ export class TicketComponent {
       })
     );
   }
+  openModal() {
+    const ref = document.getElementById('paymentButton');
+    if (ref) ref.click();
+  }
   private convertToDateString(dob: string): string | null {
     if (!dob) return null;
 
@@ -152,12 +156,13 @@ export class TicketComponent {
     this.ticketSubscription.add(
       this.customerService.findCustomers('AQUAXA2425', '', number).subscribe({
         next: (response) => {
-          // console.log('Customers:', response);
+          console.log('Customers:', response);
           this.findCustomers = response[0];
           if (this.findCustomers.isfound) {
             this.booking.name = this.findCustomers.acname;
             this.booking.phone = this.findCustomers.phone;
             this.booking.email = this.findCustomers.email;
+            this.booking.address = this.findCustomers.address;
             this.booking.specialdate =
               this.convertToDateString(this.findCustomers.dob) || '';
             if (isgenerateCoupon == true)
@@ -171,7 +176,9 @@ export class TicketComponent {
                   agent: this.agentid,
                 };
                 console.log(coupons);
-                this.generateCoupons(coupons);
+                const ref = document.getElementById('closeModelBooking');
+                if (ref) ref.click(), this.openModal();
+                // this.generateCoupons(coupons);
               }
           } else {
             this.toster.error('Customer Detail Not Found');
@@ -312,7 +319,9 @@ export class TicketComponent {
           agent: this.agentid,
         };
         console.log(coupons);
-        this.generateCoupons(coupons);
+        const ref = document.getElementById('closeModelBooking');
+        if (ref) ref.click(), this.openModal();
+        // this.generateCoupons(coupons);
       } else {
         let customer: saveCustomer = {
           cname: this.booking.name,
