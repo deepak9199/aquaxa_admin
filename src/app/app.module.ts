@@ -24,6 +24,8 @@ import { LoadingButtonComponent } from './component/loading-button/loading-butto
 import { HistoryComponent } from './pages/history/history.component';
 import { LodingBarsComponent } from './component/loding-bars/loding-bars.component';
 import { LodingCardBarComponent } from './component/loding-card-bar/loding-card-bar.component';
+import { authInterceptorProviders } from './shared/_helpers/helpers';
+import { AuthService } from './shared/_service/auth.service';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { LodingCardBarComponent } from './component/loding-card-bar/loding-card-
   ],
   providers: [
     AuthGuard,
+    authInterceptorProviders,
+    AuthService,
     provideClientHydration(withEventReplay())
   ],
   bootstrap: [AppComponent]
