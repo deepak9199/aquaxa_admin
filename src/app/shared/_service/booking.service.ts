@@ -10,7 +10,7 @@ export class BookingService {
   private apiUrl = 'https://backend.aquaxa.in/bookingreport.php/';
   private apiUrlbooking = 'https://backend.aquaxa.in/booking.php/';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   generateCoupon(request: CouponRequest): Observable<any> {
     console.log(request);
     const params = new URLSearchParams({
@@ -22,8 +22,9 @@ export class BookingService {
       id: request.id.toString(),
       phone: request.phone,
       agent: request.agent.toString(),
+      iscash: '0',
     }).toString();
-
+    console.log(`${this.apiUrlbooking}?${params}`)
     return this.http.get<any>(`${this.apiUrlbooking}?${params}`).pipe(
       tap({
         complete: () => console.log('Coupon generation request completed.'),
