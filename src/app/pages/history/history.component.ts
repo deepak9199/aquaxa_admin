@@ -38,9 +38,12 @@ export class HistoryComponent {
     this.loading = true;
     this.bookingHistorySubscription.add(
       this.bookingService.getAgentBookings(this.agentID).subscribe({
-        next: (response) => {
+        next: (response: BookingList[]) => {
           // console.log('response : ', response);
-          this.bookingList = response;
+          this.bookingList = response.sort((a, b) => {
+            return new Date(b.issue_date).getTime() - new Date(a.issue_date).getTime();
+          });
+
         },
         error: (err) => {
           console.error(err);
