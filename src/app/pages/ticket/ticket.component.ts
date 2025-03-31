@@ -75,6 +75,7 @@ export class TicketComponent {
       image1: '',
       coupons: 0,
     },
+    iscash: 0
   };
   generatedCoupons: generatedCoupon[] = [];
   private ticketSubscription = new Subscription(); // Store the subscription
@@ -202,6 +203,7 @@ export class TicketComponent {
                   id: this.findCustomers.id,
                   phone: booking.phone,
                   agent: this.agentid,
+                  iscash: booking.iscash,
                 };
                 // console.log(coupons);
                 const ref = document.getElementById('closeModelBooking');
@@ -226,6 +228,7 @@ export class TicketComponent {
                 email: '',
                 specialdate: '',
                 ticket: booking ? booking.ticket : ({} as Ticket),
+                iscash: 0,
               };
             }
           }
@@ -255,6 +258,7 @@ export class TicketComponent {
   }
   private generateCoupons(coupons: CouponRequest) {
     this.loading = true;
+    coupons.intval = coupons.intval / 2
     this.ticketSubscription.add(
       this.couponService.generateCoupon(coupons).subscribe({
         next: (response) => {
@@ -294,6 +298,7 @@ export class TicketComponent {
                     image1: '',
                     coupons: 0,
                   },
+                  iscash: 0,
                 }),
                 this.openModal('couponsButton');
           }
@@ -373,6 +378,7 @@ export class TicketComponent {
         id: this.findCustomers.id,
         phone: this.booking.phone,
         agent: this.agentid,
+        iscash: this.booking.iscash,
       };
       // console.log(coupons);
       this.generateCoupons(coupons);

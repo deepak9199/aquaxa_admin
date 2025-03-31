@@ -12,6 +12,7 @@ export interface BookingForm {
   email: string;
   specialdate: string;
   ticket: Ticket;
+  iscash: 0 | 1;
 }
 
 export interface CouponRequest {
@@ -21,6 +22,7 @@ export interface CouponRequest {
   id: number;
   phone: string;
   agent: number;
+  iscash: 0 | 1;
 }
 
 export interface BookingList {
