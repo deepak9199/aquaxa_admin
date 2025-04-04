@@ -18,7 +18,9 @@
           <div class="row mb-12 g-6">
             <div *ngFor="let ticketobj of tickets" class="col-md-3 col-lg-3">
               <div class="card h-100">
-                <img class="card-img-top" src="assets/img/elements/iPhone-bg.png" alt="Card image cap" />
+                <img class="card-img-top"
+                  [src]="isValidImage(ticketobj.image1) ? ticketobj.image1 :  Default_coupon_imge "
+                  style="height: 200px; object-fit: cover;" alt="Card image cap" />
                 <div class="card-body">
                   <h5 class="card-title">{{ ticketobj.item_name }}</h5>
                   <p class="card-text">
@@ -225,13 +227,14 @@
               <div class="col-sm-6">
                 <div class="form-floating form-floating-outline mb-4">
                   <input class="form-control" placeholder="Enter your full name..." type="text" value="" tabindex="0"
-                    id="nameEx3" [(ngModel)]="refnumber" name="refnumber" disabled />
+                    id="nameEx3" [(ngModel)]="refnumber" name="refnumber" [disabled]="booking.iscash==1?false:true" />
                   <label for="nameEx3">Paymnet Ref Number</label>
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="form-floating form-floating-outline mb-4">
-                  <select [(ngModel)]="booking.iscash" name="iscash" class="form-select" tabindex="0" id="roleEx3">
+                  <select [(ngModel)]="booking.iscash" (change)="setrefnumber()" name="iscash" class="form-select"
+                    tabindex="0" id="roleEx3">
                     <option value="0" selected>Online</option>
                     <option value="1">Cash</option>
                   </select>

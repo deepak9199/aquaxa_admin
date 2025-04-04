@@ -49,6 +49,7 @@ export class TicketComponent {
     cdp: 0,
     expiry_date: null,
   };
+  Default_coupon_imge: string = 'assets/img/elements/iPhone-bg.png';
   booking: BookingForm = {
     name: '',
     address: '',
@@ -78,6 +79,7 @@ export class TicketComponent {
     iscash: 0
   };
   generatedCoupons: generatedCoupon[] = [];
+
   private ticketSubscription = new Subscription(); // Store the subscription
   private agentid: number = 0;
 
@@ -90,6 +92,9 @@ export class TicketComponent {
     private couponService: BookingService
   ) {
     console.warn('Ticket Paged Loaded');
+  }
+  isValidImage(image: string): boolean {
+    return image !== "" && image !== '0' && image !== undefined && image !== null;
   }
   ngOnInit() {
     const userData = this.token.getUser();
@@ -131,6 +136,10 @@ export class TicketComponent {
   }
   search() {
     this.findCustomer(this.booking.phone, this.booking);
+  }
+  setrefnumber() {
+    if (this.booking.iscash == 0)
+      this.refnumber = this.getRandomStrings(10);
   }
   getRandomStrings(length: number): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
