@@ -80,7 +80,6 @@ export class TicketComponent {
     iscash: 0,
   };
   generatedCoupons: generatedCoupon[] = [];
-
   private ticketSubscription = new Subscription(); // Store the subscription
   private agentid: number = 0;
   selectedTempalte = {
@@ -439,9 +438,17 @@ export class TicketComponent {
     this.toster.info('Sending WhatsApp message please wait...');
     this.loading = true;
     this.ticketSubscription.add(
-      this.sendmessage.sendWhatsApp(coupons,refnumber,phone).subscribe({
-        next: (response) => console.log('Response:', response),
-        error: (err) => console.error('Error:', err),
+      this.sendmessage.sendWhatsApp(coupons, refnumber, phone).subscribe({
+        next: (response) => {
+          console.log('Response:', response),
+            this.toster.success('WhatsApp message sent successfully!');
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Error:', err),
+            this.toster.error('Failed to send WhatsApp message.');
+          this.loading = false;
+        },
       })
     );
   }
