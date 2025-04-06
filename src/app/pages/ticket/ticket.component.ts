@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BookingService } from '../../shared/_service/booking.service';
 import { TokenStorageService } from '../../shared/_service/token-storage.service';
 import { generatedCoupon } from '../../shared/_model/coupons';
+import { SendMessageService } from '../../shared/_service/send-message.service';
 
 @Component({
   selector: 'app-ticket',
@@ -76,25 +77,52 @@ export class TicketComponent {
       image1: '',
       coupons: 0,
     },
-    iscash: 0
+    iscash: 0,
   };
   generatedCoupons: generatedCoupon[] = [];
 
   private ticketSubscription = new Subscription(); // Store the subscription
   private agentid: number = 0;
-
+  selectedTempalte = {
+    name: 'bookingconfirm',
+    status: 'APPROVED',
+    components: [
+      {
+        type: 'BODY',
+        text: '"Splash into Fun! 🌊 You\'ve booked a thrilling day at Aquaxa Water Park & Resort with your family! 👪\n\nBooking Details:\nCoupons: {{1}} \n\nUse coupon code 🎁 at billing counter.\n\nLooking forward to splashing fun with you! 🌴👏\n\nAquaxa Water Park & Resort 🚣‍♀',
+        example: {
+          body_text: [['AQUAXA00001,AQUAXA00002,AQUAXA00003']],
+        },
+      },
+      {
+        type: 'BUTTONS',
+        buttons: [
+          {
+            type: 'URL',
+            text: 'View Bill',
+            url: 'https://print.aquaxa.in/aquaxa.php{{1}}',
+            example: ['https://print.aquaxa.in/aquaxa.php?refno=2GNGUBW1M4'],
+          },
+        ],
+      },
+    ],
+    id: '1219569853077475',
+  };
   constructor(
     private token: TokenStorageService,
     private ticketService: ItemsService,
     private fb: FormBuilder,
     private customerService: CustomerService,
     private toster: ToastrService,
-    private couponService: BookingService
+    private couponService: BookingService,
+    private sendmessage: SendMessageService
   ) {
     console.warn('Ticket Paged Loaded');
   }
   isValidImage(image: string): boolean {
-    return image !== "" && image !== '0' && image !== undefined && image !== null;
+    return (
+      image !== '' && image !== '0' && image !== undefined && image !== null
+    );
   }
   ngOnInit() {
     const userData = this.token.getUser();
@@ -138,8 +166,7 @@ export class TicketComponent {
     this.findCustomer(this.booking.phone, this.booking);
   }
   setrefnumber() {
-    if (this.booking.iscash == 0)
-      this.refnumber = this.getRandomStrings(10);
+    if (this.booking.iscash == 0) this.refnumber = this.getRandomStrings(10);
   }
   getRandomStrings(length: number): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
@@ -267,7 +294,7 @@ export class TicketComponent {
   }
   private generateCoupons(coupons: CouponRequest) {
     this.loading = true;
-    coupons.intval = coupons.intval / 2
+    coupons.intval = coupons.intval / 2;
     this.ticketSubscription.add(
       this.couponService.generateCoupon(coupons).subscribe({
         next: (response) => {
@@ -279,8 +306,12 @@ export class TicketComponent {
             if (ref)
               ref.click(),
                 (this.generatedCoupons = response),
-                this.ngOnInit(),
                 this.toster.success('Ticket Booked'),
+                this.sendToWhatsapp(
+                  this.booking.phone.toString(),
+                  this.generatedCoupons.map((coupon) => coupon.coupon_no),
+                  this.refnumber
+                ),
                 (this.booking = {
                   name: '',
                   address: '',
@@ -309,7 +340,8 @@ export class TicketComponent {
                   },
                   iscash: 0,
                 }),
-                this.openModal('couponsButton');
+                this.openModal('couponsButton'),
+                this.ngOnInit();
           }
         },
         error: (error) => {
@@ -402,6 +434,16 @@ export class TicketComponent {
   }
   generateCouponFields(count: number) {
     this.booking.coupons = Array(count).fill('');
+  }
+  private sendToWhatsapp(phone: string, coupons: string[], refnumber: string) {
+    this.toster.info('Sending WhatsApp message please wait...');
+    this.loading = true;
+    this.ticketSubscription.add(
+      this.sendmessage.sendWhatsApp(coupons,refnumber,phone).subscribe({
+        next: (response) => console.log('Response:', response),
+        error: (err) => console.error('Error:', err),
+      })
+    );
   }
   ngOnDestroy() {
     if (this.ticketSubscription) {
