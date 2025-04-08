@@ -305,7 +305,7 @@ export class TicketComponent {
     const templateParams = {
       name: this.booking.name,
       email: email,
-      couponss: coupon_no,
+      coupons: coupon_no,
       url: `https://print.tensoftware.in/aquaxa.php?refno=${refnumber}`
     };
     emailjs
