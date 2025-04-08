@@ -303,6 +303,7 @@ export class TicketComponent {
     this.loading = true;
     this.toster.info('Sending Email message please wait...');
     const templateParams = {
+      name: this.booking.name,
       email: email,
       couponss: coupon_no,
       url: `https://print.tensoftware.in/aquaxa.php?refno=${refnumber}`
