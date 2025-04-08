@@ -15,7 +15,8 @@ import { BookingService } from '../../shared/_service/booking.service';
 import { TokenStorageService } from '../../shared/_service/token-storage.service';
 import { generatedCoupon } from '../../shared/_model/coupons';
 import { SendMessageService } from '../../shared/_service/send-message.service';
-
+import emailjs, { send, type EmailJSResponseStatus } from '@emailjs/browser';
+import e from 'express';
 @Component({
   selector: 'app-ticket',
   standalone: false,
@@ -174,6 +175,86 @@ export class TicketComponent {
       () => chars[Math.floor(Math.random() * chars.length)]
     ).join('');
   }
+    openModal(id: string) {
+    const ref = document.getElementById(id);
+    if (ref) ref.click();
+  }
+  calcuateTotalAmount() {
+    this.booking.totalAmount =
+      this.booking.rate * this.booking.numberOfAdultsChildren;
+  }
+  calculateOfferPercentage(mrp: number, rate: number): number {
+    if (!mrp || !rate || mrp <= rate) return 0; // If no MRP or no discount, return 0%
+    return Math.round(((mrp - rate) / mrp) * 100);
+  }
+  onSubmit() {
+    // console.log(this.booking);
+    let { name, address, phone, specialdate, email } = this.booking;
+
+    let missingFields: string[] = [];
+
+    if (!this.isValid(name)) missingFields.push('name');
+    if (!this.isValid(address)) missingFields.push('address');
+    if (!this.isValid(phone)) missingFields.push('phone');
+    if (!this.isValid(specialdate)) missingFields.push('specialdate');
+    if (!this.isValid(email)) missingFields.push('email');
+
+    if (missingFields.length > 0) {
+      this.toster.error(
+        `Validation failed: Missing fields - ${missingFields.join(', ')}`
+      );
+    } else {
+      const ref = document.getElementById('closeModelBooking');
+      let customer: saveCustomer = {
+        cname: this.booking.name,
+        addr: this.booking.address,
+        phone: this.booking.phone,
+        dob: this.booking.specialdate,
+        email: this.booking.email,
+      };
+      if (this.findCustomers.isfound === true) {
+        console.log('Customer already exists');
+        if (ref)
+          ref.click(),
+            (this.refnumber = this.getRandomStrings(10)),
+            this.openModal('paymentButton');
+      } else {
+        console.log('Customer not found');
+        if (ref)
+          ref.click(),
+            (this.refnumber = this.getRandomStrings(10)),
+            this.findCustomer(
+              this.booking.phone,
+              this.booking,
+              this.refnumber,
+              false,
+              customer
+            ),
+            this.openModal('paymentButton');
+      }
+    }
+  }
+  onSubmitPayment() {
+    // console.log(this.booking);
+    if (this.findCustomers.isfound === true) {
+      let coupons: CouponRequest = {
+        intval: this.booking.ticket.coupons,
+        refno: this.refnumber,
+        item_code: this.booking.ticket.id,
+        id: this.findCustomers.id,
+        phone: this.booking.phone,
+        agent: this.agentid,
+        iscash: this.booking.iscash,
+      };
+      // console.log(coupons);
+      this.generateCoupons(coupons);
+    } else {
+      this.findCustomer(this.booking.phone, this.booking, this.refnumber, true);
+    }
+  }
+  generateCouponFields(count: number) {
+    this.booking.coupons = Array(count).fill('');
+  }
   private saveCustomer(
     customer: saveCustomer,
     booking: BookingForm,
@@ -195,9 +276,52 @@ export class TicketComponent {
       })
     );
   }
-  openModal(id: string) {
-    const ref = document.getElementById(id);
-    if (ref) ref.click();
+  private isValid(value: any): boolean {
+    return (
+      value !== null && value !== undefined && value.toString().trim() !== ''
+    );
+  }
+  private sendToWhatsapp(phone: string, coupons: string[], refnumber: string) {
+    this.toster.info('Sending WhatsApp message please wait...');
+    this.loading = true;
+    this.ticketSubscription.add(
+      this.sendmessage.sendWhatsApp(coupons, refnumber, phone).subscribe({
+        next: (response) => {
+          console.log('Response:', response),
+            this.toster.success('WhatsApp message sent successfully!');
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Error:', err),
+            this.toster.error('Failed to send WhatsApp message.');
+          this.loading = false;
+        },
+      })
+    );
+  }
+  private sendEmail(coupon_no: string, refnumber: string, email: string) {
+    this.loading = true;
+    this.toster.info('Sending Email message please wait...');
+    const templateParams = {
+      email: email,
+      couponss: coupon_no,
+      url: `https://print.tensoftware.in/aquaxa.php?refno=${refnumber}`
+    };
+    emailjs
+      .send('service_qygfern', 'template_hfw8cr8', templateParams, {
+        publicKey: 'T5Dq1EBq43VRLoMxQ',
+      })
+      .then(
+        () => {
+          console.log('SUCCESS!');
+          this.toster.success('Email sent successfully!');
+          this.loading = false;
+        },
+        (error: EmailJSResponseStatus) => {
+          console.log('FAILED...', error.text);
+          this.loading = false;
+        }
+      );
   }
   private convertToDateString(dob: string): string | null {
     if (!dob) return null;
@@ -310,6 +434,9 @@ export class TicketComponent {
                   this.booking.phone.toString(),
                   this.generatedCoupons.map((coupon) => coupon.coupon_no),
                   this.refnumber
+                ), this.sendEmail(
+                  this.generatedCoupons.map((coupon) => coupon.coupon_no).join(', '),
+                  this.refnumber, this.booking.email
                 ),
                 (this.booking = {
                   name: '',
@@ -349,105 +476,6 @@ export class TicketComponent {
         complete: () => {
           this.loading = false;
           console.log('Coupon generation process completed.');
-        },
-      })
-    );
-  }
-  calcuateTotalAmount() {
-    this.booking.totalAmount =
-      this.booking.rate * this.booking.numberOfAdultsChildren;
-  }
-  calculateOfferPercentage(mrp: number, rate: number): number {
-    if (!mrp || !rate || mrp <= rate) return 0; // If no MRP or no discount, return 0%
-    return Math.round(((mrp - rate) / mrp) * 100);
-  }
-  onSubmit() {
-    // console.log(this.booking);
-    let { name, address, phone, specialdate, email } = this.booking;
-
-    let missingFields: string[] = [];
-
-    if (!this.isValid(name)) missingFields.push('name');
-    if (!this.isValid(address)) missingFields.push('address');
-    if (!this.isValid(phone)) missingFields.push('phone');
-    if (!this.isValid(specialdate)) missingFields.push('specialdate');
-    if (!this.isValid(email)) missingFields.push('email');
-
-    if (missingFields.length > 0) {
-      this.toster.error(
-        `Validation failed: Missing fields - ${missingFields.join(', ')}`
-      );
-    } else {
-      const ref = document.getElementById('closeModelBooking');
-      let customer: saveCustomer = {
-        cname: this.booking.name,
-        addr: this.booking.address,
-        phone: this.booking.phone,
-        dob: this.booking.specialdate,
-        email: this.booking.email,
-      };
-      if (this.findCustomers.isfound === true) {
-        console.log('Customer already exists');
-        if (ref)
-          ref.click(),
-            (this.refnumber = this.getRandomStrings(10)),
-            this.openModal('paymentButton');
-      } else {
-        console.log('Customer not found');
-        if (ref)
-          ref.click(),
-            (this.refnumber = this.getRandomStrings(10)),
-            this.findCustomer(
-              this.booking.phone,
-              this.booking,
-              this.refnumber,
-              false,
-              customer
-            ),
-            this.openModal('paymentButton');
-      }
-    }
-  }
-  onSubmitPayment() {
-    // console.log(this.booking);
-    if (this.findCustomers.isfound === true) {
-      let coupons: CouponRequest = {
-        intval: this.booking.ticket.coupons,
-        refno: this.refnumber,
-        item_code: this.booking.ticket.id,
-        id: this.findCustomers.id,
-        phone: this.booking.phone,
-        agent: this.agentid,
-        iscash: this.booking.iscash,
-      };
-      // console.log(coupons);
-      this.generateCoupons(coupons);
-    } else {
-      this.findCustomer(this.booking.phone, this.booking, this.refnumber, true);
-    }
-  }
-  private isValid(value: any): boolean {
-    return (
-      value !== null && value !== undefined && value.toString().trim() !== ''
-    );
-  }
-  generateCouponFields(count: number) {
-    this.booking.coupons = Array(count).fill('');
-  }
-  private sendToWhatsapp(phone: string, coupons: string[], refnumber: string) {
-    this.toster.info('Sending WhatsApp message please wait...');
-    this.loading = true;
-    this.ticketSubscription.add(
-      this.sendmessage.sendWhatsApp(coupons, refnumber, phone).subscribe({
-        next: (response) => {
-          console.log('Response:', response),
-            this.toster.success('WhatsApp message sent successfully!');
-          this.loading = false;
-        },
-        error: (err) => {
-          console.error('Error:', err),
-            this.toster.error('Failed to send WhatsApp message.');
-          this.loading = false;
         },
       })
     );
