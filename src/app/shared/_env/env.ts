@@ -1,1 +1,1 @@
-export const backend_url :string = 'https://admin.aquaxa.in/';
+export const backend_url :string = 'https://backend.aquaxa.in/';

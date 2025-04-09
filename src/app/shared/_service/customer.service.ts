@@ -2,14 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { saveCustomer } from '../_model/customer';
-
+import { backend_url } from '../_env/env';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService {
-  private apiUrl = 'https://backend.aquaxa.in/savecustomer.php/';
-  private apiUrlfind = 'https://backend.aquaxa.in/findcustomer.php/';
+  private apiUrl = backend_url+'savecustomer.php/';
+  private apiUrlfind = backend_url+'findcustomer.php/';
 
   constructor(private http: HttpClient) { }
 

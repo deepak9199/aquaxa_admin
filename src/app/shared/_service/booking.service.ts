@@ -2,13 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { CouponRequest } from '../_model/booking';
-
+import { backend_url } from '../_env/env';
 @Injectable({
   providedIn: 'root',
 })
 export class BookingService {
-  private apiUrl = 'https://backend.aquaxa.in/bookingreport.php/';
-  private apiUrlbooking = 'https://backend.aquaxa.in/booking.php/';
+  private apiUrl = backend_url+'bookingreport.php/';
+  private apiUrlbooking = backend_url+'booking.php/';
 
   constructor(private http: HttpClient) { }
   generateCoupon(request: CouponRequest): Observable<any> {

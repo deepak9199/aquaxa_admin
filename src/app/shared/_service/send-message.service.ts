@@ -1,12 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-
+import { backend_url } from '../_env/env';
 @Injectable({
   providedIn: 'root',
 })
 export class SendMessageService {
-  private baseUrl = 'https://backend.aquaxa.in/sendwhatsapp.php';
+  private baseUrl = backend_url+'sendwhatsapp.php';
 
   constructor(private http: HttpClient) {}
 
@@ -23,7 +23,7 @@ export class SendMessageService {
     }).toString();
 
     // Construct the full URL
-    const url = `https://backend.aquaxa.in/sendwhatsapp.php?${params}`;
+    const url = `${this.baseUrl}?${params}`;
     console.log(url);
 
     // Return the GET request observable

@@ -2,13 +2,13 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TokenStorageService } from './token-storage.service';
 import { catchError, finalize, Observable, throwError } from 'rxjs';
-
+import { backend_url } from '../_env/env';
 @Injectable({
   providedIn: 'root'
 })
 export class ItemsService {
 
-  private apiUrl = 'https://backend.aquaxa.in/items.php';
+  private apiUrl = backend_url+'items.php';
 
   constructor(private http: HttpClient, private tokenStorage: TokenStorageService) { }
   getTicketList(): Observable<any> {
