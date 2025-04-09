@@ -11,7 +11,7 @@ import { backend_url } from '../_env/env';
 })
 export class AuthService {
 
-  private apiUrl = backend_url;
+  private apiUrl = backend_url+'salesman/auth.php';
 
   constructor(private http: HttpClient, private tokenStorage: TokenStorageService) { }
 

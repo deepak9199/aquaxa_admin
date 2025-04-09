@@ -7,9 +7,10 @@ const backend = backend_url
   providedIn: 'root'
 })
 export class AdminCurdService {
-  private apiUrl = `${backend}`;
+  
+  private apiUrl = `${backend}admin`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Create Record (POST)
   create(tableName: string, data: any, images?: File[]): Observable<any> {

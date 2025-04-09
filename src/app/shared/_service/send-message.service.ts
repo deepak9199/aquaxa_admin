@@ -6,7 +6,7 @@ import { backend_url } from '../_env/env';
   providedIn: 'root',
 })
 export class SendMessageService {
-  private baseUrl = backend_url+'sendwhatsapp.php';
+  private baseUrl = backend_url+'message/sendwhatsapp.php';
 
   constructor(private http: HttpClient) {}
 

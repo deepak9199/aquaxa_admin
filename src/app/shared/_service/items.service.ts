@@ -8,7 +8,7 @@ import { backend_url } from '../_env/env';
 })
 export class ItemsService {
 
-  private apiUrl = backend_url+'items.php';
+  private apiUrl = backend_url+'salesman/items.php';
 
   constructor(private http: HttpClient, private tokenStorage: TokenStorageService) { }
   getTicketList(): Observable<any> {

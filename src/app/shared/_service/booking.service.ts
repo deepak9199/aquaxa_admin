@@ -7,8 +7,8 @@ import { backend_url } from '../_env/env';
   providedIn: 'root',
 })
 export class BookingService {
-  private apiUrl = backend_url+'bookingreport.php/';
-  private apiUrlbooking = backend_url+'booking.php/';
+  private apiUrl = backend_url+'salesman/bookingreport.php/';
+  private apiUrlbooking = backend_url+'salesman/booking.php/';
 
   constructor(private http: HttpClient) { }
   generateCoupon(request: CouponRequest): Observable<any> {

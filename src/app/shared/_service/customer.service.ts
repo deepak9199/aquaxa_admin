@@ -8,8 +8,8 @@ import { backend_url } from '../_env/env';
   providedIn: 'root'
 })
 export class CustomerService {
-  private apiUrl = backend_url+'savecustomer.php/';
-  private apiUrlfind = backend_url+'findcustomer.php/';
+  private apiUrl = backend_url+'salesman/savecustomer.php/';
+  private apiUrlfind = backend_url+'salesman/findcustomer.php/';
 
   constructor(private http: HttpClient) { }
 
