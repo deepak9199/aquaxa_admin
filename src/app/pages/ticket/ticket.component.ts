@@ -166,7 +166,7 @@ export class TicketComponent {
     this.findCustomer(this.booking.phone, this.booking);
   }
   setrefnumber() {
-    if (this.booking.iscash == 0) this.refnumber = this.getRandomStrings(10);
+    if (this.booking.iscash == 1) this.refnumber = this.getRandomStrings(10);
   }
   getRandomStrings(length: number): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
