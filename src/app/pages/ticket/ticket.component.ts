@@ -59,7 +59,7 @@ export class TicketComponent {
     numberOfAdultsChildren: 0,
     totalAmount: 0,
     coupons: [],
-    sendToWhatsapp: false,
+    sendToWhatsapp: true,
     rate: 0,
     email: '',
     specialdate: '',
@@ -79,6 +79,7 @@ export class TicketComponent {
       coupons: 0,
     },
     iscash: 0,
+    sendToEmail: true
   };
   generatedCoupons: generatedCoupon[] = [];
   private ticketSubscription = new Subscription(); // Store the subscription
@@ -175,7 +176,7 @@ export class TicketComponent {
       () => chars[Math.floor(Math.random() * chars.length)]
     ).join('');
   }
-    openModal(id: string) {
+  openModal(id: string) {
     const ref = document.getElementById(id);
     if (ref) ref.click();
   }
@@ -383,12 +384,13 @@ export class TicketComponent {
                 numberOfAdultsChildren: 0,
                 totalAmount: 0,
                 coupons: [],
-                sendToWhatsapp: false,
+                sendToWhatsapp: true,
                 rate: booking ? booking.ticket.rate : 0,
                 email: '',
                 specialdate: '',
                 ticket: booking ? booking.ticket : ({} as Ticket),
                 iscash: 0,
+                sendToEmail: true
               };
             }
           }
@@ -430,15 +432,16 @@ export class TicketComponent {
             if (ref)
               ref.click(),
                 (this.generatedCoupons = response),
-                this.toster.success('Ticket Booked'),
-                this.sendToWhatsapp(
-                  this.booking.phone.toString(),
-                  this.generatedCoupons.map((coupon) => coupon.coupon_no),
-                  this.refnumber
-                ), this.sendEmail(
+                this.booking.sendToWhatsapp == true ?
+                  this.sendToWhatsapp(
+                    this.booking.phone.toString(),
+                    this.generatedCoupons.map((coupon) => coupon.coupon_no),
+                    this.refnumber
+                  ) : console.log('No Send to whatsapp'),
+                this.booking.sendToEmail == true ? this.sendEmail(
                   this.generatedCoupons.map((coupon) => coupon.coupon_no).join(', '),
                   this.refnumber, this.booking.email
-                ),
+                ) : console.log('No Send to Email'),
                 (this.booking = {
                   name: '',
                   address: '',
@@ -446,7 +449,7 @@ export class TicketComponent {
                   numberOfAdultsChildren: 0,
                   totalAmount: 0,
                   coupons: [],
-                  sendToWhatsapp: false,
+                  sendToWhatsapp: true,
                   rate: 0,
                   email: '',
                   specialdate: '',
@@ -466,6 +469,7 @@ export class TicketComponent {
                     coupons: 0,
                   },
                   iscash: 0,
+                  sendToEmail: true
                 }),
                 this.openModal('couponsButton'),
                 this.ngOnInit();
