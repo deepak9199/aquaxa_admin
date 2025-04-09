@@ -6,20 +6,21 @@ import { backend_url } from '../_env/env';
   providedIn: 'root',
 })
 export class SendMessageService {
-  private baseUrl = backend_url+'message/sendwhatsapp.php';
+  private baseUrl = backend_url + 'message/sendwhatsapp.php';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   sendWhatsApp(
     bookingIds: string[],
     refNo: string,
     phoneNo: string
   ): Observable<any> {
-    // Build query parameters using URLSearchParams
+
     const params = new URLSearchParams({
-      booking_ids: bookingIds.join(','), // e.g., "AQUA000349,AQUA000350"
-      ref_no: refNo, // e.g., "2RV1OSUUNG"
-      PhoneNo: phoneNo, // e.g., "9199731275"
+      booking_ids: bookingIds.join(','),
+      ref_no: refNo,
+      PhoneNo: phoneNo,
+      timestamp: Math.floor(Date.now() / 1000).toString(), // Default to current time
     }).toString();
 
     // Construct the full URL
