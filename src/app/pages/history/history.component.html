@@ -30,6 +30,7 @@
                     <th>Payment Mode</th>
                     <th>Payment Ref</th>
                     <th>Coupons</th>
+                    <th>Resend</th>
                   </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -52,10 +53,12 @@
                       <span class="badge rounded-pill bg-label-success me-1">Booked</span>
                     </td>
                     <td>
-                      <span [class]="booking.payment_mode=='ONLINE'?'badge rounded-pill bg-label-primary me-1':'badge rounded-pill bg-label-info me-1'"> {{booking.payment_mode}} </span>
+                      <span
+                        [class]="booking.payment_mode=='ONLINE'?'badge rounded-pill bg-label-primary me-1':'badge rounded-pill bg-label-info me-1'">
+                        {{booking.payment_mode}} </span>
                     </td>
                     <td>
-                      <span > {{booking.ref_no}} </span>
+                      <span> {{booking.ref_no}} </span>
                     </td>
                     <td>
                       <button (click)="select(booking.coupon_no)" type="button"
@@ -63,6 +66,17 @@
                         data-bs-target="#modalCenter">
                         Show
                       </button>
+
+                    </td>
+                    <td>
+                      <button *ngIf="!resendloading" (click)="resend(booking)" type="button"
+                        class="btn btn-primary waves-effect waves-light">
+                        Resend
+                      </button>
+                      <button *ngIf="resendloading" type="button" class="btn btn-primary waves-effect waves-light">
+                        <app-loading></app-loading>
+                      </button>
+
                     </td>
                   </tr>
                 </tbody>
