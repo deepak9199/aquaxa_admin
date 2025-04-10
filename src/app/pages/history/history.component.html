@@ -28,6 +28,7 @@
                     <th>Issue Date</th>
                     <th>Status</th>
                     <th>Payment Mode</th>
+                    <th>Payment Ref</th>
                     <th>Coupons</th>
                   </tr>
                 </thead>
@@ -52,6 +53,9 @@
                     </td>
                     <td>
                       <span [class]="booking.payment_mode=='ONLINE'?'badge rounded-pill bg-label-primary me-1':'badge rounded-pill bg-label-info me-1'"> {{booking.payment_mode}} </span>
+                    </td>
+                    <td>
+                      <span > {{booking.ref_no}} </span>
                     </td>
                     <td>
                       <button (click)="select(booking.coupon_no)" type="button"

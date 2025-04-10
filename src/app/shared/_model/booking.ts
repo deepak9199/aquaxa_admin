@@ -34,4 +34,5 @@ export interface BookingList {
   issue_date: string;
   coupon_no: string[];
   payment_mode: string;
+  ref_no: string;
 }

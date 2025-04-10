@@ -22,7 +22,7 @@ export class BookingService {
       id: request.id.toString(),
       phone: request.phone,
       agent: request.agent.toString(),
-      iscash: '0',
+      iscash: request.iscash.toString(),
     }).toString();
     console.log(`${this.apiUrlbooking}?${params}`)
     return this.http.get<any>(`${this.apiUrlbooking}?${params}`).pipe(
