@@ -27,6 +27,7 @@
                     <th>Ticket Name</th>
                     <th>Issue Date</th>
                     <th>Status</th>
+                    <th>Payment Mode</th>
                     <th>Coupons</th>
                   </tr>
                 </thead>
@@ -47,18 +48,15 @@
                     </td>
 
                     <td>
-                      <span class="badge rounded-pill bg-label-success me-1"
-                        >Booked</span
-                      >
+                      <span class="badge rounded-pill bg-label-success me-1">Booked</span>
                     </td>
                     <td>
-                      <button
-                        (click)="select(booking.coupon_no)"
-                        type="button"
-                        class="btn btn-primary waves-effect waves-light"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalCenter"
-                      >
+                      <span [class]="booking.payment_mode=='ONLINE'?'badge rounded-pill bg-label-primary me-1':'badge rounded-pill bg-label-info me-1'"> {{booking.payment_mode}} </span>
+                    </td>
+                    <td>
+                      <button (click)="select(booking.coupon_no)" type="button"
+                        class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
+                        data-bs-target="#modalCenter">
                         Show
                       </button>
                     </td>
@@ -66,7 +64,7 @@
                 </tbody>
                 <tbody *ngIf="loading" class="table-border-bottom-0">
                   <tr>
-                    <td colspan="5" >
+                    <td colspan="5">
                       <app-loding-bars></app-loding-bars>
                     </td>
                   </tr>
@@ -92,42 +90,25 @@
   <div class="layout-overlay layout-menu-toggle"></div>
 
   <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-  <div
-    class="drag-target"
-    style="
+  <div class="drag-target" style="
       touch-action: pan-y;
       user-select: none;
       -webkit-user-drag: none;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    "
-  ></div>
+    "></div>
 </div>
 <!-- model -->
-<div
-  class="modal fade"
-  id="modalCenter"
-  tabindex="-1"
-  style="display: none"
-  aria-hidden="true"
->
+<div class="modal fade" id="modalCenter" tabindex="-1" style="display: none" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="modalCenterTitle">Coupons</h4>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="demo-inline-spacing mt-4">
           <ul class="list-group">
-            <li
-              *ngFor="let coupon of selectedCoupons"
-              class="list-group-item d-flex align-items-center"
-            >
+            <li *ngFor="let coupon of selectedCoupons" class="list-group-item d-flex align-items-center">
               <i class="ri-computer-line ri-22px me-3"></i>
               {{ coupon }}
             </li>
