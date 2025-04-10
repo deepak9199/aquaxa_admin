@@ -92,7 +92,7 @@
         <form class="browser-default-validation" #bookingForm="ngForm">
           <div class="form-floating form-floating-outline mb-6">
             <div class="input-group input-group-merge">
-              <span class="input-group-text" id="basic-addon-search31">
+              <span class="input-group-text" id="basic-addon-search31" (click)="search()">
                 <i *ngIf="!loadingSearch" class="ri-search-line"></i>
                 <div *ngIf="loadingSearch" class="spinner-border spinner-border-sm text-secondary" role="status">
                   <span class="visually-hidden">Loading...</span>
@@ -164,10 +164,17 @@
   </div>
 </div>
 <!-- payment -->
-<button hidden id="paymentButton" type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
-  data-bs-target="#onboardImageModal">
-  Modal payment
-</button>
+<div hidden>
+  <button hidden id="paymentButton" type="button" class="btn btn-primary waves-effect waves-light"
+    data-bs-toggle="modal" data-bs-target="#onboardImageModal">
+    Modal payment
+  </button>
+  <button hidden id="couponsButton" type="button" class="btn btn-primary waves-effect waves-light"
+    data-bs-toggle="modal" data-bs-target="#modalCentercoupons">
+    Show
+  </button>
+</div>
+
 <div class="modal-onboarding modal fade animate__animated" id="onboardImageModal" tabindex="-1" style="display: none"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -258,10 +265,7 @@
   </div>
 </div>
 <!-- coupons -->
-<button hidden id="couponsButton" type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
-  data-bs-target="#modalCentercoupons">
-  Show
-</button>
+
 <div class="modal fade" id="modalCentercoupons" tabindex="-1" style="display: none" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
