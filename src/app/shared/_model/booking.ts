@@ -9,6 +9,7 @@ export interface BookingForm {
   totalAmount: number;
   coupons: string[];
   sendToWhatsapp: boolean;
+  sendToEmail: boolean;
   email: string;
   specialdate: string;
   ticket: Ticket;
@@ -32,4 +33,6 @@ export interface BookingList {
   item_name: string;
   issue_date: string;
   coupon_no: string[];
+  payment_mode: string;
+  ref_no: string;
 }

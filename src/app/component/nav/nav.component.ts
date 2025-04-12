@@ -9,7 +9,7 @@ import { TokenStorageService } from '../../shared/_service/token-storage.service
   styleUrl: './nav.component.css'
 })
 export class NavComponent {
-
+  
   user: User = {
     id: 0,
     user_name: '',
@@ -23,6 +23,19 @@ export class NavComponent {
     private token: TokenStorageService
   ) {
     console.log('nav loaded')
+  }
+  toggleHtmlClass() {
+    const html = document.documentElement;
+    const currentClasses = html.className;
+
+    const compactClasses = 'light-style layout-navbar-fixed layout-menu-fixed layout-compact';
+    const expandedClasses = 'light-style layout-navbar-fixed layout-compact layout-menu-fixed layout-menu-expanded';
+
+    if (currentClasses === compactClasses) {
+      html.className = expandedClasses;
+    } else {
+      html.className = compactClasses;
+    }
   }
 
   ngOnInit() {

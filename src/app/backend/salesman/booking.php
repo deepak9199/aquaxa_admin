@@ -14,6 +14,7 @@ $item_code = isset($_GET['item_code']) ? $_GET['item_code'] : '';
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $phone = isset($_GET['phone']) ? $_GET['phone'] : '';
 $agent = isset($_GET['agent']) ? $_GET['agent'] : '';
+$iscash = isset($_GET['iscash']) ? $_GET['iscash'] : '';
 
 // Base API URL
 $base_url = "https://aquaxa.tensoftware.in/api/customer";
@@ -27,7 +28,8 @@ $params = [
     'item_code' => $item_code,
     'id' => $id,
     'phone' => $phone,
-    'agent' => $agent
+    'agent' => $agent,
+    'iscash' => $iscash
 ];
 
 // Build full URL with query parameters

@@ -2,7 +2,7 @@
     id="layout-navbar">
 
     <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0   d-xl-none ">
-        <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+        <a (click)="toggleHtmlClass()" class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
             <i class="ri-menu-fill ri-22px"></i>
         </a>
     </div>
@@ -11,7 +11,7 @@
         <!-- Search -->
         <div class="navbar-nav align-items-center">
             <div class="nav-item navbar-search-wrapper mb-0">
-                <a class="nav-item nav-link search-toggler fw-normal px-0" >
+                <a class="nav-item nav-link search-toggler fw-normal px-0">
                     <i class="ri-search-line ri-22px scaleX-n1-rtl me-3"></i>
                     <span class="d-none d-md-inline-block text-muted">Search (Ctrl+/)</span>
                 </a>
@@ -23,7 +23,7 @@
 
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                <a class="nav-link dropdown-toggle hide-arrow"  data-bs-toggle="dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
                         <img src="assets/img/avatars/1.png" alt="" class="rounded-circle">
                     </div>

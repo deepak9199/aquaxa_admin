@@ -43,7 +43,7 @@ if (curl_errno($ch)) {
 } else {
     // Decode JSON response
     $data = json_decode($response, true);
-
+    
     // Return JSON response
     header('Content-Type: application/json');
     echo json_encode($data, JSON_PRETTY_PRINT);
@@ -51,3 +51,5 @@ if (curl_errno($ch)) {
 
 // Close cURL session
 curl_close($ch);
+
+?>

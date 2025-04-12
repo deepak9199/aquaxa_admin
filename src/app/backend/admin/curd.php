@@ -6,6 +6,7 @@ require './auth.php';
 // Authenticate request
 authenticate();
 
+
 // Get request method
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -63,34 +64,33 @@ function createRecord($conn)
     }
 
     // Handle multi-image upload
-    // Handle multi-image upload
-    $image_urls = [];
-    if (!empty($_FILES['images']['name'][0])) {
-        $upload_dir = "uploads/";
-        if (!file_exists($upload_dir)) {
-            mkdir($upload_dir, 0777, true);
-        }
-        foreach ($_FILES['images']['name'] as $key => $name) {
-            $file_tmp = $_FILES['images']['tmp_name'][$key];
-            $file_ext = pathinfo($name, PATHINFO_EXTENSION);
-            $file_name = time() . "_$key." . $file_ext;
-            $file_path = $upload_dir . $file_name;
-            if (move_uploaded_file($file_tmp, $file_path)) {
-                $image_urls[] =  $file_path;
-            }
-        }
-
-        // Check if 'images' column exists, add it if missing
-        $check_images_column = "SHOW COLUMNS FROM `$table_name` LIKE 'images'";
-        $result = $conn->query($check_images_column);
-        if ($result->num_rows === 0) {
-            $alter_images_column = "ALTER TABLE `$table_name` ADD `images` TEXT";
-            $conn->query($alter_images_column);
-        }
-
-        // Store image URLs as comma-separated values
-        $data['images'] = implode(',', $image_urls);
+   $image_urls = [];
+if (!empty($_FILES['images']['name'][0])) {
+    $upload_dir = "uploads/";
+    if (!file_exists($upload_dir)) {
+        mkdir($upload_dir, 0777, true);
     }
+    foreach ($_FILES['images']['name'] as $key => $name) {
+        $file_tmp = $_FILES['images']['tmp_name'][$key];
+        $file_ext = pathinfo($name, PATHINFO_EXTENSION);
+        $file_name = time() . "_$key." . $file_ext;
+        $file_path = $upload_dir . $file_name;
+        if (move_uploaded_file($file_tmp, $file_path)) {
+            $image_urls[] =  $file_path;
+        }
+    }
+
+    // Check if 'images' column exists, add it if missing
+    $check_images_column = "SHOW COLUMNS FROM `$table_name` LIKE 'images'";
+    $result = $conn->query($check_images_column);
+    if ($result->num_rows === 0) {
+        $alter_images_column = "ALTER TABLE `$table_name` ADD `images` TEXT";
+        $conn->query($alter_images_column);
+    }
+
+    // Store image URLs as comma-separated values
+    $data['images'] = implode(',', $image_urls);
+}
 
 
     // Insert record

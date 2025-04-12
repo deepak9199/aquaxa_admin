@@ -1,27 +1,43 @@
 <?php
-// Allow CORS (optional, for development only)
+// Allow CORS
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST");
 header("Access-Control-Allow-Headers: Authorization, Content-Type");
 
-// Accept parameters via GET or POST
+// Accept parameters
 $bookingIds = isset($_REQUEST['booking_ids']) ? $_REQUEST['booking_ids'] : '';
 $refNo = isset($_REQUEST['ref_no']) ? $_REQUEST['ref_no'] : '';
 $PhoneNo = isset($_REQUEST['PhoneNo']) ? $_REQUEST['PhoneNo'] : '';
+$timestamp = isset($_REQUEST['timestamp']) ? $_REQUEST['timestamp'] : '';
 
 // Validate required inputs
-if (empty($bookingIds) || empty($refNo)) {
+if (empty($bookingIds) || empty($refNo) || empty($PhoneNo) || empty($timestamp)) {
     header('Content-Type: application/json');
     echo json_encode([
         "success" => false,
-        "message" => "Missing booking_ids or ref_no parameter."
+        "message" => "Missing booking_ids, ref_no, PhoneNo, or timestamp parameter."
     ]);
     exit;
 }
 
-// WhatsApp API URL and token
+// === Prevent duplicate based on PhoneNo and timestamp ===
+$cacheKey = md5($PhoneNo . $timestamp);
+$cacheFile = __DIR__ . "/.sent_cache_$cacheKey.txt";
+
+if (file_exists($cacheFile)) {
+    echo json_encode([
+        "success" => false,
+        "message" => "Duplicate message ignored for this timestamp and phone number."
+    ]);
+    exit;
+}
+
+// Mark as sent
+file_put_contents($cacheFile, time());
+
+// WhatsApp API details
 $url = "https://graph.facebook.com/v21.0/580483471820082/messages";
-$token = "EAAB0kr0fMXQBO2McBwUYgfILQRiNOxN9ubrbDvQxuZAHZBZBef0F56mk1ADKhU6n78BqzFDEW4KKFgZBxFmB1FLc06YjET8b9a7bEVD9B4W8z828KLO0duGlm52lo3dFHBanRnFUvSdwZAD4BZAOob8RH03DC7HZAIEUmaQaNuwrRkO64F6mfWJspu6u3fO9ipzIzJsLVZAu0biZAdYI7ZCzZBjROTZCooTZAzQFtehZAj5tWNIHml8g8KespZB0dcDN2p9";
+$token = "EAAB0kr0fMXQBO2McBwUYgfILQRiNOxN9ubrbDvQxuZAHZBZBef0F56mk1ADKhU6n78BqzFDEW4KKFgZBxFmB1FLc06YjET8b9a7bEVD9B4W8z828KLO0duGlm52lo3dFHBanRnFUvSdwZAD4BZAOob8RH03DC7HZAIEUmaQaNuwrRkO64F6mfWJspu6u3fO9ipzIzJsLVZAu0biZAdYI7ZCzZBjROTZCooTZAzQFtehZAj5tWNIHml8g8KespZB0dcDN2p9"; // Replace with actual token
 
 // Prepare data
 $data = [
@@ -60,13 +76,12 @@ $data = [
     ]
 ];
 
-// Headers for WhatsApp API
+// Send WhatsApp message
 $headers = [
     "Authorization: Bearer $token",
     "Content-Type: application/json"
 ];
 
-// Make CURL request
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -77,7 +92,7 @@ $response = curl_exec($ch);
 $curlError = curl_error($ch);
 curl_close($ch);
 
-// Return proper JSON response to frontend
+// Return result
 header('Content-Type: application/json');
 
 if ($curlError) {
@@ -86,5 +101,5 @@ if ($curlError) {
         "error" => $curlError
     ]);
 } else {
-    echo $response; // response is already JSON from WhatsApp
+    echo $response;
 }

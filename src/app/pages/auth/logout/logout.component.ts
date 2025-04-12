@@ -29,7 +29,7 @@ export class LogoutComponent {
     this.trigertrefreshnavbar()
     // this.toster.success('Logout SuccessFully')
     this.router.navigate(['/']).then(() => {
-      this.toster.success('Logout SuccessFully')
+      // this.toster.success('Logout SuccessFully')
       this.loading = false
     });
   }

@@ -15,7 +15,8 @@ import { BookingService } from '../../shared/_service/booking.service';
 import { TokenStorageService } from '../../shared/_service/token-storage.service';
 import { generatedCoupon } from '../../shared/_model/coupons';
 import { SendMessageService } from '../../shared/_service/send-message.service';
-
+import emailjs, { send, type EmailJSResponseStatus } from '@emailjs/browser';
+import e from 'express';
 @Component({
   selector: 'app-ticket',
   standalone: false,
@@ -58,7 +59,7 @@ export class TicketComponent {
     numberOfAdultsChildren: 0,
     totalAmount: 0,
     coupons: [],
-    sendToWhatsapp: false,
+    sendToWhatsapp: true,
     rate: 0,
     email: '',
     specialdate: '',
@@ -78,6 +79,7 @@ export class TicketComponent {
       coupons: 0,
     },
     iscash: 0,
+    sendToEmail: true
   };
   generatedCoupons: generatedCoupon[] = [];
   private ticketSubscription = new Subscription(); // Store the subscription
@@ -174,184 +176,9 @@ export class TicketComponent {
       () => chars[Math.floor(Math.random() * chars.length)]
     ).join('');
   }
-  private saveCustomer(
-    customer: saveCustomer,
-    booking: BookingForm,
-    paymentRef: string
-  ) {
-    this.loading = true;
-    this.ticketSubscription.add(
-      this.customerService.insertCustomer(customer).subscribe({
-        next: (response) => {
-          // console.log('Response:', booking, response);
-          if (response[0].issaved) {
-          }
-        },
-        error: (error) => console.error('Error:', error),
-        complete: () => {
-          console.log('Subscription completed in component.');
-          this.loading = false;
-        },
-      })
-    );
-  }
   openModal(id: string) {
     const ref = document.getElementById(id);
     if (ref) ref.click();
-  }
-  private convertToDateString(dob: string): string | null {
-    if (!dob) return null;
-
-    const [day, month, year] = dob.split('/').map(Number);
-    const fullYear = year + (year < 50 ? 2000 : 1900); // Handle two-digit year
-
-    return `${fullYear}-${String(month).padStart(2, '0')}-${String(
-      day
-    ).padStart(2, '0')}`;
-  }
-  private findCustomer(
-    number: string,
-    booking?: BookingForm,
-    paymentRef?: string,
-    isgenerateCoupon: boolean = false,
-    savecustomer?: saveCustomer
-  ) {
-    this.loadingSearch = true;
-    this.ticketSubscription.add(
-      this.customerService.findCustomers('AQUAXA2425', '', number).subscribe({
-        next: (response) => {
-          // console.log('Customers:', response, booking, paymentRef);
-          this.findCustomers = response[0];
-          if (this.findCustomers.isfound) {
-            this.booking.name = this.findCustomers.acname;
-            this.booking.phone = this.findCustomers.phone;
-            this.booking.email = this.findCustomers.email;
-            this.booking.address = this.findCustomers.address;
-            this.booking.specialdate =
-              this.convertToDateString(this.findCustomers.dob) || '';
-            if (isgenerateCoupon == true)
-              if (booking && paymentRef) {
-                let coupons: CouponRequest = {
-                  intval: booking.ticket.coupons,
-                  refno: paymentRef,
-                  item_code: booking.ticket.id,
-                  id: this.findCustomers.id,
-                  phone: booking.phone,
-                  agent: this.agentid,
-                  iscash: booking.iscash,
-                };
-                // console.log(coupons);
-                const ref = document.getElementById('closeModelBooking');
-                if (ref) ref.click(), this.openModal('paymentButton');
-                this.generateCoupons(coupons);
-              }
-          } else {
-            if (savecustomer) {
-              console.log('Customer not found, saving customer:', savecustomer);
-              this.saveCustomer(savecustomer, this.booking, this.refnumber);
-            } else {
-              this.toster.error('Customer Detail Not Found');
-              this.booking = {
-                name: '',
-                address: '',
-                phone: number,
-                numberOfAdultsChildren: 0,
-                totalAmount: 0,
-                coupons: [],
-                sendToWhatsapp: false,
-                rate: booking ? booking.ticket.rate : 0,
-                email: '',
-                specialdate: '',
-                ticket: booking ? booking.ticket : ({} as Ticket),
-                iscash: 0,
-              };
-            }
-          }
-        },
-        error: (error) => {
-          console.error('Error fetching customers:', error);
-        },
-        complete: () => {
-          console.log('Customer search completed.');
-          this.loadingSearch = false;
-        },
-      })
-    );
-  }
-  private fetchTickets() {
-    this.loading = true;
-    this.ticketSubscription.add(
-      this.ticketService.getTicketList().subscribe({
-        next: (data) => (this.tickets = data),
-        error: (err) => console.error(err),
-        complete: () => {
-          this.loading = false;
-          console.log('Fetch tickets API call completed.');
-        },
-      })
-    );
-  }
-  private generateCoupons(coupons: CouponRequest) {
-    this.loading = true;
-    coupons.intval = coupons.intval / 2;
-    this.ticketSubscription.add(
-      this.couponService.generateCoupon(coupons).subscribe({
-        next: (response) => {
-          // console.log('Coupon Generated:', response);
-          if (response.Message) {
-            this.toster.error(response.Message);
-          } else {
-            const ref = document.getElementById('closeModelBooking');
-            if (ref)
-              ref.click(),
-                (this.generatedCoupons = response),
-                this.toster.success('Ticket Booked'),
-                this.sendToWhatsapp(
-                  this.booking.phone.toString(),
-                  this.generatedCoupons.map((coupon) => coupon.coupon_no),
-                  this.refnumber
-                ),
-                (this.booking = {
-                  name: '',
-                  address: '',
-                  phone: '',
-                  numberOfAdultsChildren: 0,
-                  totalAmount: 0,
-                  coupons: [],
-                  sendToWhatsapp: false,
-                  rate: 0,
-                  email: '',
-                  specialdate: '',
-                  ticket: {
-                    id: 0,
-                    item_name: '',
-                    item_type: 'PRODUCT',
-                    gst: 0,
-                    user_code: '',
-                    rate: 0,
-                    mrp: 0,
-                    expiry_days: 0,
-                    staff_margin: 0,
-                    group_code: 0,
-                    is_web_display: false,
-                    image1: '',
-                    coupons: 0,
-                  },
-                  iscash: 0,
-                }),
-                this.openModal('couponsButton'),
-                this.ngOnInit();
-          }
-        },
-        error: (error) => {
-          console.error('Error generating coupon:', error);
-        },
-        complete: () => {
-          this.loading = false;
-          console.log('Coupon generation process completed.');
-        },
-      })
-    );
   }
   calcuateTotalAmount() {
     this.booking.totalAmount =
@@ -426,13 +253,34 @@ export class TicketComponent {
       this.findCustomer(this.booking.phone, this.booking, this.refnumber, true);
     }
   }
+  generateCouponFields(count: number) {
+    this.booking.coupons = Array(count).fill('');
+  }
+  private saveCustomer(
+    customer: saveCustomer,
+    booking: BookingForm,
+    paymentRef: string
+  ) {
+    this.loading = true;
+    this.ticketSubscription.add(
+      this.customerService.insertCustomer(customer).subscribe({
+        next: (response) => {
+          // console.log('Response:', booking, response);
+          if (response[0].issaved) {
+          }
+        },
+        error: (error) => console.error('Error:', error),
+        complete: () => {
+          console.log('Subscription completed in component.');
+          this.loading = false;
+        },
+      })
+    );
+  }
   private isValid(value: any): boolean {
     return (
       value !== null && value !== undefined && value.toString().trim() !== ''
     );
-  }
-  generateCouponFields(count: number) {
-    this.booking.coupons = Array(count).fill('');
   }
   private sendToWhatsapp(phone: string, coupons: string[], refnumber: string) {
     this.toster.info('Sending WhatsApp message please wait...');
@@ -448,6 +296,191 @@ export class TicketComponent {
           console.error('Error:', err),
             this.toster.error('Failed to send WhatsApp message.');
           this.loading = false;
+        },
+      })
+    );
+  }
+  private sendEmail(coupon_no: string, refnumber: string, email: string) {
+    this.loading = true;
+    this.toster.info('Sending Email message please wait...');
+    const templateParams = {
+      name: this.booking.name,
+      email: email,
+      coupons: coupon_no,
+      url: `https://print.tensoftware.in/aquaxa.php?refno=${refnumber}`
+    };
+    emailjs
+      .send('service_qygfern', 'template_hfw8cr8', templateParams, {
+        publicKey: 'T5Dq1EBq43VRLoMxQ',
+      })
+      .then(
+        () => {
+          console.log('SUCCESS!');
+          this.toster.success('Email sent successfully!');
+          this.loading = false;
+        },
+        (error: EmailJSResponseStatus) => {
+          console.log('FAILED...', error.text);
+          this.loading = false;
+        }
+      );
+  }
+  private convertToDateString(dob: string): string | null {
+    if (!dob) return null;
+
+    const [day, month, year] = dob.split('/').map(Number);
+    const fullYear = year + (year < 50 ? 2000 : 1900); // Handle two-digit year
+
+    return `${fullYear}-${String(month).padStart(2, '0')}-${String(
+      day
+    ).padStart(2, '0')}`;
+  }
+  private findCustomer(
+    number: string,
+    booking?: BookingForm,
+    paymentRef?: string,
+    isgenerateCoupon: boolean = false,
+    savecustomer?: saveCustomer
+  ) {
+    this.loadingSearch = true;
+    this.ticketSubscription.add(
+      this.customerService.findCustomers('AQUAXA2425', '', number).subscribe({
+        next: (response) => {
+          // console.log('Customers:', response, booking, paymentRef);
+          this.findCustomers = response[0];
+          if (this.findCustomers.isfound) {
+            this.booking.name = this.findCustomers.acname;
+            this.booking.phone = this.findCustomers.phone;
+            this.booking.email = this.findCustomers.email;
+            this.booking.address = this.findCustomers.address;
+            this.booking.specialdate =
+              this.convertToDateString(this.findCustomers.dob) || '';
+            if (isgenerateCoupon == true)
+              if (booking && paymentRef) {
+                let coupons: CouponRequest = {
+                  intval: booking.ticket.coupons,
+                  refno: paymentRef,
+                  item_code: booking.ticket.id,
+                  id: this.findCustomers.id,
+                  phone: booking.phone,
+                  agent: this.agentid,
+                  iscash: booking.iscash,
+                };
+                // console.log(coupons);
+                const ref = document.getElementById('closeModelBooking');
+                if (ref) ref.click(), this.openModal('paymentButton');
+                this.generateCoupons(coupons);
+              }
+          } else {
+            if (savecustomer) {
+              console.log('Customer not found, saving customer:', savecustomer);
+              this.saveCustomer(savecustomer, this.booking, this.refnumber);
+            } else {
+              this.toster.error('Customer Detail Not Found');
+              this.booking = {
+                name: '',
+                address: '',
+                phone: number,
+                numberOfAdultsChildren: 0,
+                totalAmount: 0,
+                coupons: [],
+                sendToWhatsapp: true,
+                rate: booking ? booking.ticket.rate : 0,
+                email: '',
+                specialdate: '',
+                ticket: booking ? booking.ticket : ({} as Ticket),
+                iscash: 0,
+                sendToEmail: true
+              };
+            }
+          }
+        },
+        error: (error) => {
+          console.error('Error fetching customers:', error);
+        },
+        complete: () => {
+          console.log('Customer search completed.');
+          this.loadingSearch = false;
+        },
+      })
+    );
+  }
+  private fetchTickets() {
+    this.loading = true;
+    this.ticketSubscription.add(
+      this.ticketService.getTicketList().subscribe({
+        next: (data) => (this.tickets = data),
+        error: (err) => console.error(err),
+        complete: () => {
+          this.loading = false;
+          console.log('Fetch tickets API call completed.');
+        },
+      })
+    );
+  }
+  private generateCoupons(coupons: CouponRequest) {
+    this.loading = true;
+    coupons.intval = coupons.intval / 2;
+    this.ticketSubscription.add(
+      this.couponService.generateCoupon(coupons).subscribe({
+        next: (response) => {
+          // console.log('Coupon Generated:', response);
+          if (response.Message) {
+            this.toster.error(response.Message);
+          } else {
+            const ref = document.getElementById('closeModelBooking');
+            if (ref)
+              ref.click(),
+                (this.generatedCoupons = response),
+                this.booking.sendToWhatsapp == true ?
+                  this.sendToWhatsapp(
+                    this.booking.phone.toString(),
+                    this.generatedCoupons.map((coupon) => coupon.coupon_no),
+                    this.refnumber
+                  ) : console.log('No Send to whatsapp'),
+                this.booking.sendToEmail == true ? this.sendEmail(
+                  this.generatedCoupons.map((coupon) => coupon.coupon_no).join(', '),
+                  this.refnumber, this.booking.email
+                ) : console.log('No Send to Email'),
+                (this.booking = {
+                  name: '',
+                  address: '',
+                  phone: '',
+                  numberOfAdultsChildren: 0,
+                  totalAmount: 0,
+                  coupons: [],
+                  sendToWhatsapp: true,
+                  rate: 0,
+                  email: '',
+                  specialdate: '',
+                  ticket: {
+                    id: 0,
+                    item_name: '',
+                    item_type: 'PRODUCT',
+                    gst: 0,
+                    user_code: '',
+                    rate: 0,
+                    mrp: 0,
+                    expiry_days: 0,
+                    staff_margin: 0,
+                    group_code: 0,
+                    is_web_display: false,
+                    image1: '',
+                    coupons: 0,
+                  },
+                  iscash: 0,
+                  sendToEmail: true
+                }),
+                this.openModal('couponsButton'),
+                this.ngOnInit();
+          }
+        },
+        error: (error) => {
+          console.error('Error generating coupon:', error);
+        },
+        complete: () => {
+          this.loading = false;
+          console.log('Coupon generation process completed.');
         },
       })
     );

@@ -5,13 +5,13 @@ import { TokenStorageService } from './token-storage.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../_model/user_model';
-
+import { backend_url } from '../_env/env';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private apiUrl = 'https://backend.aquaxa.in/';
+  private apiUrl = backend_url+'salesman/auth.php';
 
   constructor(private http: HttpClient, private tokenStorage: TokenStorageService) { }
 

@@ -1,0 +1,26 @@
+[28-Mar-2025 09:47:40 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'aquaxypk_aquaxa.item' doesn't exist in /home2/aquaxypk/admin.aquaxa.in/index.php:112
+Stack trace:
+#0 /home2/aquaxypk/admin.aquaxa.in/index.php(112): mysqli->query('SELECT * FROM `...')
+#1 /home2/aquaxypk/admin.aquaxa.in/index.php(19): getRecords(Object(mysqli))
+#2 {main}
+  thrown in /home2/aquaxypk/admin.aquaxa.in/index.php on line 112
+[28-Mar-2025 09:49:02 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'aquaxypk_aquaxa.item' doesn't exist in /home2/aquaxypk/admin.aquaxa.in/index.php:112
+Stack trace:
+#0 /home2/aquaxypk/admin.aquaxa.in/index.php(112): mysqli->query('SELECT * FROM `...')
+#1 /home2/aquaxypk/admin.aquaxa.in/index.php(19): getRecords(Object(mysqli))
+#2 {main}
+  thrown in /home2/aquaxypk/admin.aquaxa.in/index.php on line 112
+[28-Mar-2025 10:54:13 UTC] PHP Fatal error:  Cannot redeclare deleteRecord() (previously declared in /home2/aquaxypk/admin.aquaxa.in/index.php:161) in /home2/aquaxypk/admin.aquaxa.in/index.php on line 245
+[28-Mar-2025 10:54:29 UTC] PHP Fatal error:  Cannot redeclare deleteRecord() (previously declared in /home2/aquaxypk/admin.aquaxa.in/index.php:161) in /home2/aquaxypk/admin.aquaxa.in/index.php on line 245
+[28-Mar-2025 10:55:59 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'images' in 'field list' in /home2/aquaxypk/admin.aquaxa.in/index.php:89
+Stack trace:
+#0 /home2/aquaxypk/admin.aquaxa.in/index.php(89): mysqli->query('INSERT INTO `it...')
+#1 /home2/aquaxypk/admin.aquaxa.in/index.php(16): createRecord(Object(mysqli))
+#2 {main}
+  thrown in /home2/aquaxypk/admin.aquaxa.in/index.php on line 89
+[28-Mar-2025 10:56:55 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'images' in 'field list' in /home2/aquaxypk/admin.aquaxa.in/index.php:89
+Stack trace:
+#0 /home2/aquaxypk/admin.aquaxa.in/index.php(89): mysqli->query('INSERT INTO `it...')
+#1 /home2/aquaxypk/admin.aquaxa.in/index.php(16): createRecord(Object(mysqli))
+#2 {main}
+  thrown in /home2/aquaxypk/admin.aquaxa.in/index.php on line 89
