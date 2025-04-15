@@ -10,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 $key_id = 'rzp_test_Zh7oxA1PbVUnmk';
 $key_secret = 'U3xxaqsDzzEvyYM4MuLOnV1v';
+// $key_id = 'rzp_live_hjgmokcegPbfvb';
+// $key_secret = 'OMDah7NH49XBp58YUH2PmBBA';
 
 $conn = new mysqli("localhost", "aquaxypk_root", "!!@@##Aqua@123", "aquaxypk_aquaxa");
 if ($conn->connect_error) {

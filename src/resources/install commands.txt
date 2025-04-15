@@ -4,3 +4,5 @@ npm install ngx-toastr --save
  npm install husky --save-dev 
  npm install admin-lte@^3.0 --save
  npm i --save-dev @types/papaparse
+
+ npm install --save @emailjs/browser
