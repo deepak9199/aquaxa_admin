@@ -307,7 +307,7 @@ export class TicketComponent {
       name: this.booking.name,
       email: email,
       coupons: coupon_no,
-      url: `https://print.tensoftware.in/aquaxa.php?refno=${refnumber}`
+      url: `https://print.auqaxa.in/aquaxa.php?refno=${refnumber}`
     };
     emailjs
       .send('service_qygfern', 'template_hfw8cr8', templateParams, {
