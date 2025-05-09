@@ -17,6 +17,8 @@ import { generatedCoupon } from '../../shared/_model/coupons';
 import { SendMessageService } from '../../shared/_service/send-message.service';
 import emailjs, { send, type EmailJSResponseStatus } from '@emailjs/browser';
 import e from 'express';
+import { PaymentService } from '../../shared/_service/payment.service';
+declare var Razorpay: any;
 @Component({
   selector: 'app-ticket',
   standalone: false,
@@ -24,6 +26,12 @@ import e from 'express';
   styleUrl: './ticket.component.css',
 })
 export class TicketComponent {
+  formData = {
+    date: '',
+    name: '',
+    phone: '',
+    email: '',
+  };
   tickets: Ticket[] = [];
   loading: boolean = false;
   loadingSearch: boolean = false;
@@ -51,6 +59,7 @@ export class TicketComponent {
     cdp: 0,
     expiry_date: null,
   };
+  private keys: string = true ? 'rzp_live_hjgmokcegPbfvb' : 'rzp_test_Zh7oxA1PbVUnmk'
   Default_coupon_imge: string = 'assets/img/elements/iPhone-bg.png';
   booking: BookingForm = {
     name: '',
@@ -116,7 +125,9 @@ export class TicketComponent {
     private customerService: CustomerService,
     private toster: ToastrService,
     private couponService: BookingService,
-    private sendmessage: SendMessageService
+    private sendmessage: SendMessageService,
+    private paymentService: PaymentService,
+
   ) {
     console.warn('Ticket Paged Loaded');
   }
@@ -300,6 +311,102 @@ export class TicketComponent {
       })
     );
   }
+  payNow() {
+    const { date, name, phone, email } = this.formData;
+
+    if (!date || !name || !phone || !email) {
+      this.toster.error('Please fill all the fields');
+      return;
+    }
+
+    this.toster.info('Creating order, please wait...');
+    this.paymentService.createOrder(1000).subscribe((order) => {
+      const options = {
+        key: this.keys,
+        amount: order.amount,
+        currency: order.currency,
+        name: 'Aquaxa Water Park & Resort',
+        description: 'Grand Opening Offer',
+        order_id: order.id,
+        handler: (response: any) => {
+          // Triggered for instant payments
+          this.verifyPayment(response, order.id);
+        },
+        modal: {
+          ondismiss: () => {
+            // Handle QR or delayed UPI collect payments
+            this.toster.info('Checking payment status, please wait...');
+            this.paymentService
+              .verifyPayment({
+                razorpay_order_id: order.id,
+                name,
+                email,
+                phone,
+              })
+              .subscribe((res) => {
+                if (res.success) {
+                  this.toster.success(res.message);
+                } else {
+                  this.toster.warning('Payment not completed.');
+                }
+              });
+          },
+        },
+        prefill: {
+          name,
+          email,
+          contact: phone,
+        },
+        theme: {
+          color: '#0A2540',
+        },
+      };
+
+      const rzp = new Razorpay(options);
+
+      // Catch success for UPI/QR collect payments
+      rzp.on('payment.success', (response: any) => {
+        this.verifyPayment(response, order.id);
+      });
+
+      rzp.open();
+    });
+  }
+  private verifyPayment(response: any, orderId: string) {
+    const { name, email, phone } = this.formData;
+
+    this.toster.info('Verifying payment...');
+    const payload = {
+      ...response,
+      name,
+      email,
+      phone,
+      razorpay_order_id: orderId,
+    };
+
+    this.paymentService.verifyPayment(payload).subscribe((res) => {
+      if (res.success) {
+        this.toster.success(res.message);
+        this.toster.info('Generating coupon, please wait...');
+        this.refnumber = orderId;
+        this.booking.name = this.formData.name;
+        this.booking.phone = this.formData.phone;
+        this.booking.email = this.formData.email;
+        this.booking.specialdate = this.convertToDateString(this.formData.date) || '';
+        this.booking.iscash = 0;
+        this.findCustomer(this.booking.phone, this.booking, this.refnumber, true, {
+          cname: this.booking.name,
+          addr: this.booking.address,
+          phone: this.booking.phone,
+          dob: this.booking.specialdate,
+          email: this.booking.email,
+        } as saveCustomer
+        );
+      } else {
+        this.toster.error('Payment verification failed');
+      }
+    });
+  }
   private sendEmail(coupon_no: string, refnumber: string, email: string) {
     this.loading = true;
     this.toster.info('Sending Email message please wait...');
@@ -307,7 +414,7 @@ export class TicketComponent {
       name: this.booking.name,
       email: email,
       coupons: coupon_no,
-      url: `https://print.auqaxa.in/aquaxa.php?refno=${refnumber}`
+      url: `https://print.aquaxa.in/aquaxa.php?refno=${refnumber}`
     };
     emailjs
       .send('service_qygfern', 'template_hfw8cr8', templateParams, {
