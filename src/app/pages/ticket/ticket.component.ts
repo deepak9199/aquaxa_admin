@@ -26,6 +26,18 @@ declare var Razorpay: any;
   styleUrl: './ticket.component.css',
 })
 export class TicketComponent {
+  private formatter = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+  private now = new Date();
+  private startOfMonth = new Date(
+    this.now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
+  );
+  private kolkataMonthStart = this.formatter.format(this.startOfMonth.setDate(1));
+  private kolkataDate = this.formatter.format(new Date());
   formData = {
     date: '',
     name: '',
@@ -246,6 +258,12 @@ export class TicketComponent {
       }
     }
   }
+  paymentby() {
+    if (!this.booking.iscash)
+      this.openModal('payemntBy');
+    else
+      this.onSubmitPayment()
+  }
   onSubmitPayment() {
     // console.log(this.booking);
     if (this.findCustomers.isfound === true) {
@@ -312,6 +330,14 @@ export class TicketComponent {
     );
   }
   payNow() {
+
+    this.formData = {
+      date: this.kolkataDate,
+      name: this.booking.name,
+      phone: this.booking.phone,
+      email: this.booking.email,
+    }
+
     const { date, name, phone, email } = this.formData;
 
     if (!date || !name || !phone || !email) {
@@ -319,58 +345,61 @@ export class TicketComponent {
       return;
     }
 
-    this.toster.info('Creating order, please wait...');
-    this.paymentService.createOrder(1000).subscribe((order) => {
-      const options = {
-        key: this.keys,
-        amount: order.amount,
-        currency: order.currency,
-        name: 'Aquaxa Water Park & Resort',
-        description: 'Grand Opening Offer',
-        order_id: order.id,
-        handler: (response: any) => {
-          // Triggered for instant payments
-          this.verifyPayment(response, order.id);
-        },
-        modal: {
-          ondismiss: () => {
-            // Handle QR or delayed UPI collect payments
-            this.toster.info('Checking payment status, please wait...');
-            this.paymentService
-              .verifyPayment({
-                razorpay_order_id: order.id,
-                name,
-                email,
-                phone,
-              })
-              .subscribe((res) => {
-                if (res.success) {
-                  this.toster.success(res.message);
-                } else {
-                  this.toster.warning('Payment not completed.');
-                }
-              });
-          },
-        },
-        prefill: {
-          name,
-          email,
-          contact: phone,
-        },
-        theme: {
-          color: '#0A2540',
-        },
-      };
+    const ref = document.getElementById('baymentByClose')
+    if (ref)
+      ref.click(),
+        this.toster.info('Creating order, please wait...'),
+        this.paymentService.createOrder(this.booking.rate).subscribe((order) => {
+          const options = {
+            key: this.keys,
+            amount: order.amount,
+            currency: order.currency,
+            name: 'Aquaxa Water Park & Resort',
+            description: 'Grand Opening Offer',
+            order_id: order.id,
+            handler: (response: any) => {
+              // Triggered for instant payments
+              this.verifyPayment(response, order.id);
+            },
+            modal: {
+              ondismiss: () => {
+                // Handle QR or delayed UPI collect payments
+                this.toster.info('Checking payment status, please wait...');
+                this.paymentService
+                  .verifyPayment({
+                    razorpay_order_id: order.id,
+                    name,
+                    email,
+                    phone,
+                  })
+                  .subscribe((res) => {
+                    if (res.success) {
+                      this.toster.success(res.message);
+                    } else {
+                      this.toster.warning('Payment not completed.');
+                    }
+                  });
+              },
+            },
+            prefill: {
+              name,
+              email,
+              contact: phone,
+            },
+            theme: {
+              color: '#0A2540',
+            },
+          };
 
-      const rzp = new Razorpay(options);
+          const rzp = new Razorpay(options);
 
-      // Catch success for UPI/QR collect payments
-      rzp.on('payment.success', (response: any) => {
-        this.verifyPayment(response, order.id);
-      });
+          // Catch success for UPI/QR collect payments
+          rzp.on('payment.success', (response: any) => {
+            this.verifyPayment(response, order.id);
+          });
 
-      rzp.open();
-    });
+          rzp.open();
+        });
   }
   private verifyPayment(response: any, orderId: string) {
     const { name, email, phone } = this.formData;

@@ -163,6 +163,7 @@
     </div>
   </div>
 </div>
+
 <!-- payment -->
 <div hidden>
   <button hidden id="paymentButton" type="button" class="btn btn-primary waves-effect waves-light"
@@ -172,6 +173,10 @@
   <button hidden id="couponsButton" type="button" class="btn btn-primary waves-effect waves-light"
     data-bs-toggle="modal" data-bs-target="#modalCentercoupons">
     Show
+  </button>
+  <button hidden id="payemntBy" type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
+    data-bs-target="#ModelpayemntBy">
+    payment by
   </button>
 </div>
 
@@ -253,8 +258,7 @@
         </div>
       </div>
       <div class="modal-footer border-0">
-        <button *ngIf="!loading" (click)="onSubmitPayment()" type="button"
-          class="btn btn-primary waves-effect waves-light">
+        <button *ngIf="!loading" (click)="paymentby()" type="button" class="btn btn-primary waves-effect waves-light">
           Make Payment
         </button>
         <button *ngIf="loading" class="btn btn-primary waves-effect waves-light" disabled>
@@ -281,6 +285,52 @@
               {{ coupon.coupon_no }}
             </li>
           </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-onboarding modal fade animate__animated" id="ModelpayemntBy" tabindex="-1" style="display: none"
+  aria-modal="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content text-center">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" id="baymentByClose"></button>
+
+      </div>
+      <div class="modal-body onboarding-horizontal p-0">
+        <div class="onboarding-media">
+          <img
+            src="https://demos.pixinvent.com/materialize-html-admin-template/assets/img/illustrations/boy-verify-email-light.png"
+            alt="boy-verify-email-light" width="273" class="img-fluid"
+            data-app-light-img="illustrations/boy-verify-email-light.png"
+            data-app-dark-img="illustrations/boy-verify-email-dark.png" style="visibility: visible;">
+        </div>
+        <div class="onboarding-content mb-0">
+          <h4 class="onboarding-title text-body">Request Information</h4>
+          <div class="onboarding-info">
+            In this, you can see a form where you can request some additional
+            information from the customer when they land on the app page, such as using their own QR or a payment
+            gateway.
+          </div>
+
+          <form>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-floating form-floating-outline mb-4">
+                  <button type="button" class="btn btn-primary waves-effect waves-light w-100"
+                    (click)="onSubmitPayment()">Own Qr</button>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-floating form-floating-outline mb-4">
+                  <button type="button" class="btn btn-primary waves-effect waves-light w-100"
+                    (click)="payNow()">Payment Getway</button>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
