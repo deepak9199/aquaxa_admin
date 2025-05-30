@@ -26,6 +26,10 @@ import { LodingBarsComponent } from './component/loding-bars/loding-bars.compone
 import { LodingCardBarComponent } from './component/loding-card-bar/loding-card-bar.component';
 import { authInterceptorProviders } from './shared/_helpers/helpers';
 import { AuthService } from './shared/_service/auth.service';
+import { BannerComponent } from './pages/banner/banner.component';
+import { SpecialOfferComponent } from './pages/special-offer/special-offer.component';
+import { DiveInFunComponent } from './pages/dive-in-fun/dive-in-fun.component';
+import { OurServicesComponent } from './pages/our-services/our-services.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +49,11 @@ import { AuthService } from './shared/_service/auth.service';
     LoadingButtonComponent,
     HistoryComponent,
     LodingBarsComponent,
-    LodingCardBarComponent
+    LodingCardBarComponent,
+    BannerComponent,
+    SpecialOfferComponent,
+    DiveInFunComponent,
+    OurServicesComponent
   ],
   imports: [
     BrowserModule,
